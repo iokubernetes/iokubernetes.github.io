@@ -6,16 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://iokubernetes.github.io">
-  <title>Archives: 2019/8 | iokubernetes</title>
+  <title>Nginx+keepalived构建高可用负载均衡 | iokubernetes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="kubernetes,docker,golang,python,linux">
-<meta property="og:type" content="website">
-<meta property="og:title" content="iokubernetes">
-<meta property="og:url" content="https://iokubernetes.github.io/archives/2019/08/index.html">
+  <meta name="description" content="Nginx + keepalived构建高可用负载均衡Nginx 高可用集群Nginx 本身具有反向代理和负载均衡集群的功能，通过第三方软件如 keepalived、heartbeat 可构建高可用集群，实现反向代理、nginx 高可用、nginx负载均衡的功能。 Keepalive构建高可用集群Nginx 能够实现反向代理和负载均衡的功能，但是并没有提供高可用的功能，当单台服务器出现故障时，会导">
+<meta name="keywords" content="nginx,keepalived">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx+keepalived构建高可用负载均衡">
+<meta property="og:url" content="https://iokubernetes.github.io/2019/08/08/nginx-keepalived构建高可用负载均衡/index.html">
 <meta property="og:site_name" content="iokubernetes">
+<meta property="og:description" content="Nginx + keepalived构建高可用负载均衡Nginx 高可用集群Nginx 本身具有反向代理和负载均衡集群的功能，通过第三方软件如 keepalived、heartbeat 可构建高可用集群，实现反向代理、nginx 高可用、nginx负载均衡的功能。 Keepalive构建高可用集群Nginx 能够实现反向代理和负载均衡的功能，但是并没有提供高可用的功能，当单台服务器出现故障时，会导">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://iokubernetes.github.io/2019/08/08/nginx-keepalived构建高可用负载均衡/.%5Cimages%5Ctuoputu.png">
+<meta property="og:image" content="https://iokubernetes.github.io/2019/08/08/nginx-keepalived构建高可用负载均衡/images/tuoputu2.jpg">
+<meta property="og:image" content="https://iokubernetes.github.io/2019/08/08/nginx-keepalived构建高可用负载均衡/images/ceshi1.png">
+<meta property="og:image" content="https://iokubernetes.github.io/2019/08/08/nginx-keepalived构建高可用负载均衡/images/ceshi2.png">
+<meta property="og:updated_time" content="2019-08-08T03:16:01.353Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iokubernetes">
+<meta name="twitter:title" content="Nginx+keepalived构建高可用负载均衡">
+<meta name="twitter:description" content="Nginx + keepalived构建高可用负载均衡Nginx 高可用集群Nginx 本身具有反向代理和负载均衡集群的功能，通过第三方软件如 keepalived、heartbeat 可构建高可用集群，实现反向代理、nginx 高可用、nginx负载均衡的功能。 Keepalive构建高可用集群Nginx 能够实现反向代理和负载均衡的功能，但是并没有提供高可用的功能，当单台服务器出现故障时，会导">
+<meta name="twitter:image" content="https://iokubernetes.github.io/2019/08/08/nginx-keepalived构建高可用负载均衡/.%5Cimages%5Ctuoputu.png">
   
     <link rel="alternative" href="/atom.xml" title="iokubernetes" type="application/atom+xml">
   
@@ -151,36 +160,169 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-nginx-keepalived构建高可用负载均衡" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/08/nginx-keepalived构建高可用负载均衡/" class="archive-article-date">
-  	<time datetime="2019-08-08T01:08:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-08</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/08/nginx-keepalived构建高可用负载均衡/">Nginx+keepalived构建高可用负载均衡</a>
+    <h1 class="article-title" itemprop="name">
+      Nginx+keepalived构建高可用负载均衡
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2019/08/08/nginx-keepalived构建高可用负载均衡/" class="archive-article-date">
+  	<time datetime="2019-08-08T01:08:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Nginx-keepalived构建高可用负载均衡"><a href="#Nginx-keepalived构建高可用负载均衡" class="headerlink" title="Nginx + keepalived构建高可用负载均衡"></a>Nginx + keepalived构建高可用负载均衡</h2><h3 id="Nginx-高可用集群"><a href="#Nginx-高可用集群" class="headerlink" title="Nginx 高可用集群"></a>Nginx 高可用集群</h3><p>Nginx 本身具有反向代理和负载均衡集群的功能，通过第三方软件如 keepalived、heartbeat 可构建高可用集群，实现反向代理、nginx 高可用、nginx<br>负载均衡的功能。</p>
+<h3 id="Keepalive构建高可用集群"><a href="#Keepalive构建高可用集群" class="headerlink" title="Keepalive构建高可用集群"></a>Keepalive构建高可用集群</h3><p>Nginx 能够实现反向代理和负载均衡的功能，但是并没有提供高可用的功能，当单台服务器出现故障时，会导致后端的 web 服务器群组出现故障。为了避免 nginx 单点故障，可以通过第三方软件 keepalived 构建高可用集群，keepalived 是实现高可用集群的一个开源软件，其能够定期监控集群节点的健康状况，当主节点出现故障时，备用节点能够检测到主节点的故障，并接管主节点的工作。整个过程时间很短，对于客户来说是透明的，从而实现故障的无缝迁移，当主节点恢复正常时，keepalived 能够从备用节点中重新接管回工作。</p>
+<p>Keepalived 的实现类似于虚拟路由器 vrrp，将两台 HA 集群的 IP 虚拟为一个虚拟 IP，即 vip，对外提供服务的正是 vip。Keepalived 节点分为主节点和备用节点，正常情况下，vip 在主节点上，对外接管服务，备用节点仅当主节点出现故障时，vip 从主节点自动漂移到备用节点，接管主节点的工作，对外提供服务。</p>
+<p>通过如下拓扑，使用  构建一个高可用集群，后续在两个节点中部署  反向代理、 负载均衡和  高可用的功能，其拓扑如下：</p>
+<p><img src=".%5Cimages%5Ctuoputu.png" alt="拓扑图"></p>
+<p>通过两台 RHEL/CentOS 主机构建 keepalived 高可用集群，使用 172.16.100.254 作为漂移 IP， 即虚拟 </p>
+<p>vip，两台主机的 IP 分别是 172.16.100.101 和 172.16.100.102，心跳检测使用 eth0 网卡。</p>
+<ul>
+<li>在主节点和备用节点上安装 keepalived(两台都要安装，安装方法一模一样) </li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@sever1  nginx]<span class="comment">#   tar   -xvzf   keepalived-1.2.12.tar.gz [root@sever1 nginx]# cd keepalived-1.2.12</span></span><br><span class="line">[root@sever1 keepalived-1.2.12]<span class="comment"># ./configure --prefix=/usr/local/keepalived</span></span><br><span class="line">[root@sever1 keepalived-1.2.12]<span class="comment"># make</span></span><br><span class="line">[root@sever1 keepalived-1.2.12]<span class="comment"># make install</span></span><br></pre></td></tr></table></figure>
+
+<p>说明：–prefix 指定 keepalived 的安装路径，–sbindir 指定 keepalived 的二进制命令， 即守护进程，–sysconfigdir 指定与配置文件相关的路径。安装完毕之后，keepalived 释放的文件如下:</p>
+<table>
+<thead>
+<tr>
+<th>/etc/keepalived/keepalived.conf</th>
+<th>主要配置文件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>/etc/sysconfig/keepalived</td>
+<td>全局配置文件</td>
+</tr>
+<tr>
+<td>/etc/init.d/keepalived</td>
+<td>服务控制脚本</td>
+</tr>
+<tr>
+<td>/usr/sbin/keepalived</td>
+<td>后台脚本，即守护进程</td>
+</tr>
+<tr>
+<td>/usr/local/keepalived/{bin,share}</td>
+<td>命令和帮助文档</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>修改 keepalived 的配置文件，设定主节点、优先级、vip 等信息，其中主节点的配置文件内容如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[root@sever1 ~]<span class="comment"># vim /etc/keepalived/keepalived.conf</span></span><br><span class="line"></span><br><span class="line">! Configuration File <span class="keyword">for</span> keepalived</span><br><span class="line">global_defs &#123;           <span class="comment">#定义收邮件的管理员邮箱</span></span><br><span class="line">    notification_email &#123;</span><br><span class="line">          root@example.com</span><br><span class="line">          &#125;</span><br><span class="line">    notification_email_from root.example.com	<span class="comment">#定义发送邮件的管理员邮箱</span></span><br><span class="line">    smtp_server localhost                       <span class="comment">#发送邮件的服务器的 IP</span></span><br><span class="line">    smtp_connect_timeout 30                     <span class="comment">#smtp 连接超时时间</span></span><br><span class="line">    router_id keepalived_master                 <span class="comment">#路由器 id，即名称，两边可以不一样</span></span><br><span class="line">  &#125;</span><br><span class="line"> vrrp_instance VI_1 &#123;	<span class="comment">#vrrp 实例	</span></span><br><span class="line">     state MASTER	<span class="comment">#状态，MASTER 是主节点，BACKUP 为次</span></span><br><span class="line">    interface eth0	<span class="comment">#心跳检测的网卡，建议使用单独的网卡</span></span><br><span class="line">    virtual_router_id 100	<span class="comment">#虚拟路由器 id，两边保持一致，表示在 #同一个 vrrp 实例中			</span></span><br><span class="line">    priority 101	<span class="comment">#优先级，master 的优先级高于备用节点</span></span><br><span class="line">    advert_int 1						</span><br><span class="line">    authentication &#123;	<span class="comment">#认证信息					</span></span><br><span class="line">      auth_type PASS	<span class="comment">#使用密码认证				</span></span><br><span class="line">      auth_pass keepalived	<span class="comment">#认证密码，两边必须保持一致	</span></span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;    <span class="comment">#虚拟IP信息VIP</span></span><br><span class="line">         172.16.100.254/32</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>次要节点 keepalived 的配置文件内容如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[root@CentOS6 ~]# vim /etc/keepalived/keepalived.conf</span><br><span class="line"></span><br><span class="line">! Configuration File for keepalived</span><br><span class="line">global_defs &#123;</span><br><span class="line">  notification_ema il &#123;</span><br><span class="line">    root@example.com</span><br><span class="line">	&#125;</span><br><span class="line">  notification_email_from root@example.com</span><br><span class="line">  smtp_server localhost</span><br><span class="line">  smtp_connect_timeout 30</span><br><span class="line">  router_id keepalived_slave 名字可以不一样</span><br><span class="line">  &#125;</span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    state BACKUP 为备用节点，即 BACKUP</span><br><span class="line">    interface eth0 心跳检测网卡</span><br><span class="line">    virtual_router_id 100 必须保持一致</span><br><span class="line">    priority 100 备用节点的优先级低于主节点</span><br><span class="line">    advert_int 1</span><br><span class="line">    authentication &#123;</span><br><span class="line">      auth_type PASS</span><br><span class="line">      auth_pass keepalived 认证信息保持一致</span><br><span class="line">	  &#125;</span><br><span class="line">    virtual_ipaddress &#123; 虚拟 IP 设置为一样</span><br><span class="line">      172.16.100.254</span><br><span class="line">	  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>启动 keepalived 服务（先在主节点启用，后在备用节点启用）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@sever1 ~]<span class="comment"># service keepalived start</span></span><br><span class="line">[root@sever1 ~]<span class="comment"># service keepalived status</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置下次开机启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@sever1 ~]<span class="comment"># chkconfig level 35 keepalived on</span></span><br><span class="line">[root@sever1 ~]<span class="comment"># chkconfig list keepalived</span></span><br><span class="line">keepalived 0:off 1:off 2:off 3:on 4:off 5:on 6:off</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>校验虚拟 IP，虚拟 IP 通常在主节点上，使用 ip addr 验证，并在备用节点上上 ping 测试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@sever1 ~]<span class="comment"># ip addr</span></span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 16436 qdisc noque ue state UNKNOWN</span><br><span class="line">link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">inet 127.0.0.1/8 scope host lo</span><br><span class="line">inet6 ::1/128 scope host</span><br><span class="line">valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen</span><br><span class="line">1000</span><br><span class="line">link/ether 00:0c:29:a4:11:e8 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">inet 172.16.100.101/24 brd 172.16.100.255 scope global eth0 心跳 IP</span><br><span class="line">inet 172.16.100.254/32 scope global eth0 虚拟 VIP</span><br><span class="line">inet6 fe80::20c:29ff:fea4:11e8/64 scope link</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>备用节点测试 VIP</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@CentOS6 ~]<span class="comment"># ping 172.16.100.254 c 1 备用节点测试 VIP 的连通性</span></span><br><span class="line">PING 172.16.100.254 (172.16.100.254) 56(84) bytes of data.</span><br><span class="line">64 bytes f rom 172.16.100.254: icmp_seq=1 ttl=64 time=2.16 ms</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试 keepalived 的高可用性，当主节点出现故障时，备用节点是否能接管，将心跳网卡模拟故障，或者主节点down 机，浮动 IP 能否漂移到备用节点</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 关闭主节点网卡</span></span><br><span class="line">[root@sever1 ~]<span class="comment"># ifdown eth0</span></span><br><span class="line"><span class="comment">#校验虚拟IP</span></span><br><span class="line">[root@CentOS6 ~]<span class="comment"># ip addr</span></span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 16436 qdisc noqueue state UNKNOWN</span><br><span class="line">link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">inet 127.0.0.1/8 scope host lo</span><br><span class="line">inet6 ::1/128 scope host</span><br><span class="line">valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 150 0 qdisc pfifo_fast state UP qlen</span><br><span class="line">1000</span><br><span class="line">link/ether 00:0c:29:82:7e:c3 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">inet 172.16.100.102/24 brd 172.16.100.255 scope global eth0 <span class="comment">#备用节点 IP</span></span><br><span class="line">inet 172.16.100.254/32 scope global eth0 <span class="comment">#接管 VIP 工作</span></span><br><span class="line">inet6 fe80::20c:29ff:fe82:7ec3/64 scope link</span><br><span class="line"><span class="comment">#当主节点的故障恢复之后， 校验主节点是否重新接管了 VIP 的工作</span></span><br><span class="line">[root@sever1 ~]<span class="comment"># ip addr</span></span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast st ate UP qlen</span><br><span class="line">1000</span><br><span class="line">link/ether 00:0c:29:a4:11:e8 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">inet 172.16.100.101/24 brd 172.16.100.255 scope global eth0 主节点 IP</span><br><span class="line">inet 172.16.100.254/32 scope global eth0 主节点重新接</span><br><span class="line">inet6 fe80::20c:29ff:fea4:11e8/64 scope link 管 VIP 工作</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>至此， Keepalived 高可用 HA 集群配置完毕， 通过 keepalived 能够实现故障的自动转移， 当<br>主节点恢复正常之后，能偶自动从备用节点接管工作，整个接管的过程时间很短暂，对于客户来<br>说，几乎是透明。</p>
+<h3 id="Nginx-构建负载均衡集群"><a href="#Nginx-构建负载均衡集群" class="headerlink" title="Nginx 构建负载均衡集群"></a>Nginx 构建负载均衡集群</h3><p>如上通过<br>keepalived 构建了一个高可用集群， 防止单点故障， 如下承接上面的 keepalived<br>通过 nginx 作为反向代理，实现一个高可用的反向负载均衡集群，实现的拓扑如下：</p>
+<p><img src="./images/tuoputu2.jpg" alt="拓扑图2"></p>
+<p>说明：通过两台服务器部署 keepalived 实现高可用性，防止单点故障；通过 Nginx 实现反向代理和负载均衡的功能，Nginx 充当代理和缓存功能，真正提供服务的的是后端的服务器群组； 使用共享存储确保 web 服务器数据的唯一性；实验环境中，nginx 即充当反向代理，亦是充当后端的 web server，nginx 使用 80 端口，httpd 则使用 81端口.</p>
+<ul>
+<li>按照如图配置好 IP 地址，并安装 keepalived、nginx 和 httpd各项服务，并确保后端的 httpd 服务能够正常访问.</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@sever1 ~]<span class="comment"># service httpd start</span></span><br><span class="line">Starting httpd:</span><br><span class="line">[root@sever1 ~]<span class="comment"># chkconfig level 35 httpd on</span></span><br><span class="line">[root@sever1 ~]<span class="comment"># netstat antupl | grep httpd</span></span><br><span class="line">tcp 0 0 172.16.100.101:81 0.0.0.0:* LISTEN 2816/httpd</span><br><span class="line"><span class="comment">#测试站点是否可用</span></span><br><span class="line">[root@sever1 ~]<span class="comment"># elinks du mp 172.16.100.101:81</span></span><br><span class="line">this is 172.16.100.101 website!</span><br><span class="line">[root@sever1 ~]<span class="comment"># elinks dump 172.16.100.102:81</span></span><br><span class="line">this is 172.16.100.102 website!</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>配置 nginx ，实现反向代理功能，其中当主节点 master 工作时， 172.16.100.101 和172.16.100.102 以 2:1 的比例调度，当 slave 工作时，以 1:2 的比率调度， nginx 主节点配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">[root@s ever1 ~]# cat /usr/local/nginx/conf/nginx.conf | grep v E &apos;#|^$&apos;</span><br><span class="line"></span><br><span class="line">user nginx nginx;</span><br><span class="line">worker_processes 2;</span><br><span class="line">error_log logs/error.log;</span><br><span class="line">pid logs/nginx.pid;</span><br><span class="line">events &#123;</span><br><span class="line">  use epoll;</span><br><span class="line">  worker_connections 65535;</span><br><span class="line">&#125;</span><br><span class="line">http &#123;</span><br><span class="line">  include mime.types;</span><br><span class="line">  default_type application/octet stream;</span><br><span class="line">  log_format main &apos;$remote_addr $remote_user [$time_local] &quot;$request&quot;</span><br><span class="line">                  &apos;$status $body_bytes_sent &quot;$http_referer&quot;</span><br><span class="line">                  &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</span><br><span class="line">  sendfile on;</span><br><span class="line">  keepalive_timeout 65;</span><br><span class="line">  gzip on;</span><br><span class="line">  upstream webserver &#123;               #定义服务器群组，名称为 webserver </span><br><span class="line">          server 172.16.100.101:81 weight=2; #服务器群组 IP ，采用轮询调度，比重 2</span><br><span class="line">          server 172.16.100.102:81 weight=1; #比重为 1</span><br><span class="line">    &#125;</span><br><span class="line">  server &#123;</span><br><span class="line">      listen 80; #侦听所有地址的 80 ，不要指定固定 IP</span><br><span class="line">      server_name server101.example.com; #服务器名称</span><br><span class="line">      charset utf 8;</span><br><span class="line">      access_log logs/server101.example.com.access.log main;</span><br><span class="line">      location / &#123;</span><br><span class="line">         proxy_pass http://webserver #调用服务器群组 ，即有请求到 80 端口时</span><br><span class="line">          &#125;                          ##，转发给后端的服务器群组 ，实现代理</span><br><span class="line">          error_page 500 502 503 504 /50x.html;</span><br><span class="line">          location = /50x.html &#123;</span><br><span class="line">              root html;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>N ginx 备用节点的配置 如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">[root@CentOS6 ~]<span class="comment"># cat /usr/loca l/nginx/conf/nginx.conf | grep v E '#|^$'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">user nginx nginx;</span><br><span class="line">worker_processes 2;</span><br><span class="line">error_log logs/error.log;</span><br><span class="line">events &#123;</span><br><span class="line">  use epoll;</span><br><span class="line">  worker_connections 65535;</span><br><span class="line"> &#125;</span><br><span class="line">http &#123;</span><br><span class="line">  include mime.types;</span><br><span class="line">  default_type application/octet stream;</span><br><span class="line">  log_format main  <span class="string">'$remote_addr $remote_user [$time_local] "$request"</span></span><br><span class="line"><span class="string">                    '</span><span class="variable">$status</span> <span class="variable">$body_bytes_sent</span> <span class="string">"<span class="variable">$http_referer</span>"</span></span><br><span class="line">                    <span class="string">'"$http_user_agent" "$http_x_forwarded_for"'</span>;</span><br><span class="line">   sendfile on;</span><br><span class="line">   keepalive_timeout 65;</span><br><span class="line">   gzip on;</span><br><span class="line">   upstream webserver &#123; <span class="comment">#定义服务器群组</span></span><br><span class="line">     server 172.16.100.101:81 weight=1; <span class="comment">#服务器 IP 地址，轮询比重是 1</span></span><br><span class="line">     server 172.16.100.102:81 weight=2; <span class="comment">#服务器 IP 地址，轮询比重是 2</span></span><br><span class="line">   &#125;</span><br><span class="line">   server &#123;</span><br><span class="line">      listen 80; <span class="comment">#侦听所有地址的 80 ，不要指定固定 IP</span></span><br><span class="line">      server_name server101.example.com; <span class="comment">#服务器名称</span></span><br><span class="line">      charset utf 8;</span><br><span class="line">      access_log logs/server101.example.com.access.log main;</span><br><span class="line">      location / &#123;</span><br><span class="line">         proxy_pass http://webserver <span class="comment">#调用服务器群组 ，即有请求到 80 端口时</span></span><br><span class="line">          &#125;                          <span class="comment">##，转发给后端的服务器群组 ，实现代理</span></span><br><span class="line">          error_page 500 502 503 504 /50x.html;</span><br><span class="line">          location = /50x.html &#123;</span><br><span class="line">              root html;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>重启nginx服务器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@CentOS6 ~]<span class="comment"># /usr/local/nginx/sbin/nginx s stop</span></span><br><span class="line">[root@CentOS6 ~]<span class="comment"># /usr/local/nginx/sbin/nginx</span></span><br><span class="line"><span class="comment">#查看主从服务器的侦听端口情况：</span></span><br><span class="line">[root@sever1 ~]<span class="comment"># netstat antupl | grep nginx</span></span><br><span class="line">tcp 0 0 0.0.0.0:80 0.0.0.0:* LISTEN 3063/nginx</span><br><span class="line">[root@CentOS6 ~]<span class="comment"># netstat antupl | grep nginx</span></span><br><span class="line">tcp 0 0 0.0.0.0:80 0.0.0.0:* LISTEN 13893/nginx</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h3 id="测试-高可用、反向代理、负载均衡"><a href="#测试-高可用、反向代理、负载均衡" class="headerlink" title="测试 高可用、反向代理、负载均衡"></a>测试 高可用、反向代理、负载均衡</h3><ul>
+<li><p>正常测试 ，访问 VIP ，看能否正常访问站点 ，并且是以 2:1 的方式</p>
+<p><img src="./images/ceshi1.png" alt="测试1"></p>
+</li>
+<li><p>测试高可用，关闭 master 的 keepalived 服务、或者网络、甚至宕机，校验 web 是否还能正常访问</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@sever1 ~]<span class="comment"># service	keepalived stop</span></span><br><span class="line">Stopping keepalived:	[	OK	]</span><br></pre></td></tr></table></figure>
+
+<p><img src="./images/ceshi2.png" alt="测试2"></p>
+</li>
+</ul>
+<ul>
+<li>能够正常访问，并且是以 1:2 的形式调度，说明已经切换到 nginx 的备用节点上</li>
+</ul>
+<p>小结：如上通过 keepalived、nginx、httpd 构建一个健壮性强、并发性高、故障自动切换的</p>
+<p>web 集群节点，其中 keepalived 承担心跳检测功能，实现高可用 HA 功能；nginx 充当反向代理和负载均衡功能；httpd 充当后端的 web 服务器，当无法承担更多请求时，加入 web 即可；使用共享存储，保障服务器群组数据的唯一性。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -192,7 +334,7 @@
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -205,44 +347,104 @@
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://iokubernetes.github.io/2019/08/08/nginx-keepalived构建高可用负载均衡/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/06/hello-world/" class="archive-article-date">
-  	<time datetime="2019-08-06T02:52:16.664Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-06</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/08/06/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Hello World</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/06/hello-world/">Hello World</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -265,8 +467,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
