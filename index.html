@@ -177,7 +177,7 @@
 <h3 id="Keepalive构建高可用集群"><a href="#Keepalive构建高可用集群" class="headerlink" title="Keepalive构建高可用集群"></a>Keepalive构建高可用集群</h3><p>Nginx 能够实现反向代理和负载均衡的功能，但是并没有提供高可用的功能，当单台服务器出现故障时，会导致后端的 web 服务器群组出现故障。为了避免 nginx 单点故障，可以通过第三方软件 keepalived 构建高可用集群，keepalived 是实现高可用集群的一个开源软件，其能够定期监控集群节点的健康状况，当主节点出现故障时，备用节点能够检测到主节点的故障，并接管主节点的工作。整个过程时间很短，对于客户来说是透明的，从而实现故障的无缝迁移，当主节点恢复正常时，keepalived 能够从备用节点中重新接管回工作。</p>
 <p>Keepalived 的实现类似于虚拟路由器 vrrp，将两台 HA 集群的 IP 虚拟为一个虚拟 IP，即 vip，对外提供服务的正是 vip。Keepalived 节点分为主节点和备用节点，正常情况下，vip 在主节点上，对外接管服务，备用节点仅当主节点出现故障时，vip 从主节点自动漂移到备用节点，接管主节点的工作，对外提供服务。</p>
 <p>通过如下拓扑，使用  构建一个高可用集群，后续在两个节点中部署  反向代理、 负载均衡和  高可用的功能，其拓扑如下：</p>
-<p><img src=".%5Cimages%5Ctuoputu.png" alt="拓扑图"></p>
+<p><img src="http://ww1.sinaimg.cn/large/8141265fgy1g5s4ggspsrj20gu0ammxr.jpg" alt></p>
 <p>通过两台 RHEL/CentOS 主机构建 keepalived 高可用集群，使用 172.16.100.254 作为漂移 IP， 即虚拟 </p>
 <p>vip，两台主机的 IP 分别是 172.16.100.101 和 172.16.100.102，心跳检测使用 eth0 网卡。</p>
 <ul>
@@ -246,7 +246,7 @@
 </ul>
 <p>至此， Keepalived 高可用 HA 集群配置完毕， 通过 keepalived 能够实现故障的自动转移， 当<br>主节点恢复正常之后，能偶自动从备用节点接管工作，整个接管的过程时间很短暂，对于客户来<br>说，几乎是透明。</p>
 <h3 id="Nginx-构建负载均衡集群"><a href="#Nginx-构建负载均衡集群" class="headerlink" title="Nginx 构建负载均衡集群"></a>Nginx 构建负载均衡集群</h3><p>如上通过<br>keepalived 构建了一个高可用集群， 防止单点故障， 如下承接上面的 keepalived<br>通过 nginx 作为反向代理，实现一个高可用的反向负载均衡集群，实现的拓扑如下：</p>
-<p><img src="./images/tuoputu2.jpg" alt="拓扑图2"></p>
+<p><img src="http://ww1.sinaimg.cn/large/8141265fgy1g5s4h12boqj20i60e840n.jpg" alt></p>
 <p>说明：通过两台服务器部署 keepalived 实现高可用性，防止单点故障；通过 Nginx 实现反向代理和负载均衡的功能，Nginx 充当代理和缓存功能，真正提供服务的的是后端的服务器群组； 使用共享存储确保 web 服务器数据的唯一性；实验环境中，nginx 即充当反向代理，亦是充当后端的 web server，nginx 使用 80 端口，httpd 则使用 81端口.</p>
 <ul>
 <li>按照如图配置好 IP 地址，并安装 keepalived、nginx 和 httpd各项服务，并确保后端的 httpd 服务能够正常访问.</li>
@@ -274,16 +274,15 @@
 </ul>
 <h3 id="测试-高可用、反向代理、负载均衡"><a href="#测试-高可用、反向代理、负载均衡" class="headerlink" title="测试 高可用、反向代理、负载均衡"></a>测试 高可用、反向代理、负载均衡</h3><ul>
 <li><p>正常测试 ，访问 VIP ，看能否正常访问站点 ，并且是以 2:1 的方式</p>
-<p><img src="./images/ceshi1.png" alt="测试1"></p>
+<p><img src="http://ww1.sinaimg.cn/large/8141265fgy1g5s4hn7pwsj20gg04daa3.jpg" alt></p>
 </li>
 <li><p>测试高可用，关闭 master 的 keepalived 服务、或者网络、甚至宕机，校验 web 是否还能正常访问</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@sever1 ~]<span class="comment"># service	keepalived stop</span></span><br><span class="line">Stopping keepalived:	[	OK	]</span><br></pre></td></tr></table></figure>
 
-<p><img src="./images/ceshi2.png" alt="测试2"></p>
+<p><img src="http://ww1.sinaimg.cn/large/8141265fgy1g5s4i25zsij20cw02t749.jpg" alt></p>
 </li>
-</ul>
-<ul>
-<li>能够正常访问，并且是以 1:2 的形式调度，说明已经切换到 nginx 的备用节点上</li>
+<li><p>能够正常访问，并且是以 1:2 的形式调度，说明已经切换到 nginx 的备用节点上</p>
+</li>
 </ul>
 <p>小结：如上通过 keepalived、nginx、httpd 构建一个健壮性强、并发性高、故障自动切换的</p>
 <p>web 集群节点，其中 keepalived 承担心跳检测功能，实现高可用 HA 功能；nginx 充当反向代理和负载均衡功能；httpd 充当后端的 web 服务器，当无法承担更多请求时，加入 web 即可；使用共享存储，保障服务器群组数据的唯一性。</p>
