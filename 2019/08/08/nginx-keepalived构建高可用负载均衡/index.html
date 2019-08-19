@@ -20,7 +20,7 @@
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/8141265fgy1g5s4h12boqj20i60e840n.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/8141265fgy1g5s4hn7pwsj20gg04daa3.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/8141265fgy1g5s4i25zsij20cw02t749.jpg">
-<meta property="og:updated_time" content="2019-08-08T07:21:15.181Z">
+<meta property="og:updated_time" content="2019-08-08T07:45:37.569Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nginx+keepalived构建高可用负载均衡">
 <meta name="twitter:description" content="Nginx + keepalived构建高可用负载均衡Nginx 高可用集群Nginx 本身具有反向代理和负载均衡集群的功能，通过第三方软件如 keepalived、heartbeat 可构建高可用集群，实现反向代理、nginx 高可用、nginx负载均衡的功能。 Keepalive构建高可用集群Nginx 能够实现反向代理和负载均衡的功能，但是并没有提供高可用的功能，当单台服务器出现故障时，会导">
@@ -178,7 +178,7 @@
 <ul>
 <li>在主节点和备用节点上安装 keepalived(两台都要安装，安装方法一模一样) </li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@sever1  nginx]<span class="comment">#   tar   -xvzf   keepalived-1.2.12.tar.gz [root@sever1 nginx]# cd keepalived-1.2.12</span></span><br><span class="line">[root@sever1 keepalived-1.2.12]<span class="comment"># ./configure --prefix=/usr/local/keepalived</span></span><br><span class="line">[root@sever1 keepalived-1.2.12]<span class="comment"># make</span></span><br><span class="line">[root@sever1 keepalived-1.2.12]<span class="comment"># make install</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@sever1  nginx]<span class="comment">#   tar   -xvzf   keepalived-1.2.12.tar.gz </span></span><br><span class="line">[root@sever1 nginx]<span class="comment"># cd keepalived-1.2.12</span></span><br><span class="line">[root@sever1 keepalived-1.2.12]<span class="comment"># ./configure --prefix=/usr/local/keepalived</span></span><br><span class="line">[root@sever1 keepalived-1.2.12]<span class="comment"># make</span></span><br><span class="line">[root@sever1 keepalived-1.2.12]<span class="comment"># make install</span></span><br></pre></td></tr></table></figure>
 
 <p>说明：–prefix 指定 keepalived 的安装路径，–sbindir 指定 keepalived 的二进制命令， 即守护进程，–sysconfigdir 指定与配置文件相关的路径。安装完毕之后，keepalived 释放的文件如下:</p>
 <table>
@@ -215,7 +215,7 @@
 </ul>
 <ul>
 <li><p>次要节点 keepalived 的配置文件内容如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[root@CentOS6 ~]# vim /etc/keepalived/keepalived.conf</span><br><span class="line"></span><br><span class="line">! Configuration File for keepalived</span><br><span class="line">global_defs &#123;</span><br><span class="line">  notification_ema il &#123;</span><br><span class="line">    root@example.com</span><br><span class="line">	&#125;</span><br><span class="line">  notification_email_from root@example.com</span><br><span class="line">  smtp_server localhost</span><br><span class="line">  smtp_connect_timeout 30</span><br><span class="line">  router_id keepalived_slave 名字可以不一样</span><br><span class="line">  &#125;</span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    state BACKUP 为备用节点，即 BACKUP</span><br><span class="line">    interface eth0 心跳检测网卡</span><br><span class="line">    virtual_router_id 100 必须保持一致</span><br><span class="line">    priority 100 备用节点的优先级低于主节点</span><br><span class="line">    advert_int 1</span><br><span class="line">    authentication &#123;</span><br><span class="line">      auth_type PASS</span><br><span class="line">      auth_pass keepalived 认证信息保持一致</span><br><span class="line">	  &#125;</span><br><span class="line">    virtual_ipaddress &#123; 虚拟 IP 设置为一样</span><br><span class="line">      172.16.100.254</span><br><span class="line">	  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[root@CentOS6 ~]# vim /etc/keepalived/keepalived.conf</span><br><span class="line"></span><br><span class="line">! Configuration File for keepalived</span><br><span class="line">global_defs &#123;</span><br><span class="line">  notification_ema il &#123;</span><br><span class="line">    root@example.com</span><br><span class="line">	&#125;</span><br><span class="line">  notification_email_from root@example.com</span><br><span class="line">  smtp_server localhost</span><br><span class="line">  smtp_connect_timeout 30</span><br><span class="line">  router_id keepalived_slave 名字可以不一样</span><br><span class="line">  &#125;</span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    state BACKUP 为备用节点，即 BACKUP</span><br><span class="line">    interface eth0 心跳检测网卡</span><br><span class="line">    virtual_router_id 100 必须保持一致</span><br><span class="line">    priority 100 备用节点的优先级低于主节点</span><br><span class="line">    advert_int 1</span><br><span class="line">    authentication &#123;</span><br><span class="line">      auth_type PASS</span><br><span class="line">      auth_pass keepalived 认证信息保持一致</span><br><span class="line">	  &#125;</span><br><span class="line">    virtual_ipaddress &#123; 虚拟 IP 设置为一样</span><br><span class="line">      172.16.100.254/32</span><br><span class="line">	  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -400,6 +400,15 @@
   
 <nav id="article-nav">
   
+    <a href="/2019/08/19/calico-实现原理/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Calico 实现原理
+        
+      </div>
+    </a>
+  
   
     <a href="/2019/08/06/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">Hello World</div>
@@ -528,7 +537,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">nginx,keepalived</a>
+                <a href="javascript:void(0)" class="js-tag color2">calico</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">kubernetes</a>
               </li>
              
               <li class="article-tag-list-item">
