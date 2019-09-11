@@ -58,6 +58,8 @@
 	        
 				<li><a href="/categories/linux运维/">linux运维</a></li>
 	        
+				<li><a href="/categories/kubernetes/">kubernetes</a></li>
+	        
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -108,6 +110,8 @@
 			
 				
 			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -119,12 +123,14 @@
 			</nav>
 
 			<nav class="header-menu js-header-menu">
-				<ul style="width: 50%">
+				<ul style="width: 70%">
 				
 				
-					<li style="width: 50%"><a href="/">主页</a></li>
+					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/categories/linux运维/">linux运维</a></li>
+					<li style="width: 33.333333333333336%"><a href="/categories/linux运维/">linux运维</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/categories/kubernetes/">kubernetes</a></li>
 		        
 				</ul>
 			</nav>
@@ -140,6 +146,79 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-ceph安装部署" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/11/ceph安装部署/">ceph安装部署</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/11/ceph安装部署/" class="archive-article-date">
+  	<time datetime="2019-09-11T05:50:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="基于centos-7-部署ceph分布式存储"><a href="#基于centos-7-部署ceph分布式存储" class="headerlink" title="基于centos 7 部署ceph分布式存储"></a>基于centos 7 部署ceph分布式存储</h2><h3 id="1-安装前准备"><a href="#1-安装前准备" class="headerlink" title="1.安装前准备"></a>1.安装前准备</h3><ul>
+<li><p>配置免密登录以及host解析</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#在deploy这台机器上执行,这里注意时间一定要同步.需自行安装以及配置chronyd.</span></span><br><span class="line">ssh-keygen</span><br><span class="line">ssh-copy-id ceph-node1</span><br><span class="line">ssh-copy-id ceph-node2</span><br><span class="line">ssh-copy-id ceph-node3</span><br><span class="line">cat /etc/hosts</span><br><span class="line">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4</span><br><span class="line">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</span><br><span class="line">172.16.40.226 ceph-node1</span><br><span class="line">172.16.40.15 ceph-node2</span><br><span class="line">172.16.40.16 ceph-node3</span><br><span class="line">scp /etc/hosts ceph-node2:/etc/</span><br><span class="line">scp /etc/hosts ceph-node3:/etc/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置yum源</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#以下配置在所有节点上执行</span></span><br><span class="line">yum install epel-release -y </span><br><span class="line">mv /etc/yum.repos.d/epel.repo /etc/yum.repos.d/epel.repo.back</span><br><span class="line">wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo</span><br><span class="line"><span class="comment">#以下配置在ceph-node1节点执行</span></span><br><span class="line">cat &gt; /etc/yum.repos.d/ceph.repo &lt;&lt; EOF</span><br><span class="line">[Ceph]</span><br><span class="line">name=Ceph packages <span class="keyword">for</span> <span class="variable">$basearch</span></span><br><span class="line">baseurl=http://mirrors.aliyun.com/ceph/rpm-luminous/el7/<span class="variable">$basearch</span></span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=0</span><br><span class="line"><span class="built_in">type</span>=rpm-md</span><br><span class="line">gpgkey=https://mirrors.aliyun.com/ceph/keys/release.asc</span><br><span class="line">priority=1</span><br><span class="line"></span><br><span class="line">[Ceph-noarch]</span><br><span class="line">name=Ceph noarch packages</span><br><span class="line">baseurl=http://mirrors.aliyun.com/ceph/rpm-luminous/el7/noarch</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=0</span><br><span class="line"><span class="built_in">type</span>=rpm-md</span><br><span class="line">gpgkey=https://mirrors.aliyun.com/ceph/keys/release.asc</span><br><span class="line">priority=1</span><br><span class="line"></span><br><span class="line">[ceph-source]</span><br><span class="line">name=Ceph <span class="built_in">source</span> packages</span><br><span class="line">baseurl=http://mirrors.aliyun.com/ceph/rpm-luminous/el7/SRPMS</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=0</span><br><span class="line"><span class="built_in">type</span>=rpm-md</span><br><span class="line">gpgkey=https://mirrors.aliyun.com/ceph/keys/release.asc</span><br><span class="line">priority=1</span><br><span class="line">EOF</span><br><span class="line">scp /etc/yum.repos.d/ceph.repo ceph-node2:/etc/yum.repos.d/</span><br><span class="line">scp /etc/yum.repos.d/ceph.repo ceph-node3:/etc/yum.repos.d/</span><br><span class="line"><span class="comment">#以下配置需在所有节点上执行</span></span><br><span class="line">yum install ceph-deploy ceph-radosgw ceph htop sysstat iotop iftop ntpdate -y</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="2-使用ceph-deploy进行部署"><a href="#2-使用ceph-deploy进行部署" class="headerlink" title="2. 使用ceph-deploy进行部署"></a>2. 使用ceph-deploy进行部署</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#在ceph-node1节点执行</span></span><br><span class="line">mkdir ceph-cluster</span><br><span class="line"><span class="built_in">cd</span> ceph-cluster/</span><br><span class="line"><span class="comment">#首先是初始化集群配置</span></span><br><span class="line">ceph-deploy new ceph-node1 ceph-node2 ceph-node3</span><br><span class="line"><span class="comment">#初始化集群主要是生成最基本的配置文件ceph.conf和monitor key文件ceph.mon.keyring，我们要手动修改ceph.conf，添加集群公网和集群网络的配置</span></span><br><span class="line">cat ceph.conf </span><br><span class="line">[global]</span><br><span class="line">fsid = 61556da9-33f1-431b-8de8-77b58595f69b</span><br><span class="line">mon_initial_members = ceph-node1, ceph-node2, ceph-node3</span><br><span class="line">mon_host = 172.16.40.226,172.16.40.15,172.16.40.16</span><br><span class="line">auth_cluster_required = cephx</span><br><span class="line">auth_service_required = cephx</span><br><span class="line">auth_client_required = cephx</span><br><span class="line">public_network = 172.16.40.0/24  <span class="comment">#添加集群网络配置,官方建议网段分开。</span></span><br><span class="line">cluster_network = 172.16.40.0/24</span><br><span class="line"><span class="comment">#添加配置之后，执行安装</span></span><br><span class="line">ceph-deploy install ceph-node1 ceph-node2 ceph-node3</span><br><span class="line"><span class="comment">#注意到，我们初始化三个monitor，接下来我们创建monitor</span></span><br><span class="line">ceph-deploy mon create-initial</span><br><span class="line"><span class="comment">#mon create-initial会根据ceph.conf进行创建mon，判断monitor都创建成功后，会进行keyring的收集，这些keyring在后续创建其他成员的时候要用到，接下来我们分发集群keyring</span></span><br><span class="line">ceph-deploy admin ceph-node1 ceph-node2 ceph-node3</span><br><span class="line"><span class="comment">#这个操作是将集群的admin.keyring分发给指定的节点，这样这些节点就可以使用ceph命令了，接下来创建mgr</span></span><br><span class="line">ceph-deploy mgr create ceph-node1 ceph-node2 ceph-node3</span><br><span class="line"><span class="comment">#mgr分担了很多原本monitor的工作，目前它也是重要的一个组件，根据集群规模，可以创建2-3个mgr，不过也没有必要太多，接下来可以开始创建osd了</span></span><br><span class="line">ceph-deploy osd create --data /dev/sdb ceph-node1</span><br><span class="line">ceph-deploy osd create --data /dev/sdc ceph-node1</span><br><span class="line">ceph-deploy osd create --data /dev/sdb ceph-node2</span><br><span class="line">ceph-deploy osd create --data /dev/sdc ceph-node2</span><br><span class="line">ceph-deploy osd create --data /dev/sdb ceph-node3</span><br><span class="line">ceph-deploy osd create --data /dev/sdc ceph-node3</span><br><span class="line"><span class="comment">#创建后，可以查看集群是否添加成功</span></span><br><span class="line">ceph -s</span><br><span class="line">  cluster:</span><br><span class="line">    id:     61556da9-33f1-431b-8de8-77b58595f69b</span><br><span class="line">    health: HEALTH_OK</span><br><span class="line"> </span><br><span class="line">  services:</span><br><span class="line">    mon: 3 daemons, quorum ceph-node2,ceph-node3,ceph-node1</span><br><span class="line">    mgr: ceph-node1(active), standbys: ceph-node2, ceph-node3</span><br><span class="line">    osd: 6 osds: 6 up, 6 <span class="keyword">in</span></span><br><span class="line"> </span><br><span class="line">  data:</span><br><span class="line">    pools:   0 pools, 0 pgs</span><br><span class="line">    objects: 0 objects, 0B</span><br><span class="line">    usage:   6.02GiB used, 174GiB / 180GiB avail</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-创建存储池"><a href="#3-创建存储池" class="headerlink" title="3. 创建存储池"></a>3. 创建存储池</h3>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/11/ceph安装部署/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-calico-实现原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
