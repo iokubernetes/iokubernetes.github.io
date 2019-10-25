@@ -178,9 +178,9 @@
 <li>RGW：RGW提供对象存储服务。它使用librgw（Rados网关库）和librados，允许应用程序与ceph对象存储建立连接。RGW提供了与Amazon S3和OpenStack swift 兼容的RESTFul api接口。</li>
 <li>CephFS： ceph文件系统提供了一个符合posix标准的文件系统。它使用ceph存储集群在文件系统上存储用户数据。与RBD RGW一样，cephfs服务也作为librados的本机接口实现。</li>
 <li>ceph manager： Ceph Manager 守护进程（ceph-mgr）是在kraken版本中引入的，它与monitor守护进程一起运行，为外部监视和管理系统提供额外的监视和接口。</li>
-<li>PG<br>PG的主要功能是将几个对象组合成一个组，然后将这个组映射到几个osd。每个组机制比每个对象机制更有效，因为前者使用的资源更少。在检索数据时，调用组要比调用组中的单个对象有效得多。下图显示了 pg 与 osd 的关系<br><img src="https://ws1.sinaimg.cn/large/8141265fgy1g6tes04yq9j20m20b20u9.jpg" alt="ceph-2.png"></li>
+<li>PG<br>PG的主要功能是将几个对象组合成一个组，然后将这个组映射到几个osd。每个组机制比每个对象机制更有效，因为前者使用的资源更少。在检索数据时，调用组要比调用组中的单个对象有效得多。下图显示了 pg 与 osd 的关系<br><img src="http://ws1.sinaimg.cn/large/8141265fgy1g6tes04yq9j20m20b20u9.jpg" alt="ceph-2.png"></li>
 </ul>
-<p><img src="https://ws1.sinaimg.cn/large/8141265fgy1g6teoiketqj20zq0jvjv2.jpg" alt="ceph-1.png"></p>
+<p><img src="http://ws1.sinaimg.cn/large/8141265fgy1g6teoiketqj20zq0jvjv2.jpg" alt="ceph-1.png"></p>
 <ul>
 <li>POOL</li>
 </ul>
