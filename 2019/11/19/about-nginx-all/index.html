@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://iokubernetes.github.io">
-  <title>Hello World | iokubernetes</title>
+  <title>about-nginx-all | iokubernetes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
-<meta name="keywords" content="kubernetes,docker,golang,python,linux">
+  <meta name="description" content="Nginx在实际工作当中用到nginx居多，但是每次的总结都感觉很零散，每次出现问题都需要去百度。导致很被动，所以这里就希望记录一下。 Nginx是一款高性能的HTTP和反向代理服务器，能够选择高效的epoll(linux2.6内核)、kqueue(freebsd)、eventport(solaris10)作为网络I/O模型，能够支持高达50000个并发连接数的响应，而内存、CPU等系统资源消耗却">
+<meta name="keywords" content="LINUX运维">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://iokubernetes.github.io/2019/08/06/hello-world/index.html">
+<meta property="og:title" content="about-nginx-all">
+<meta property="og:url" content="https://iokubernetes.github.io/2019/11/19/about-nginx-all/index.html">
 <meta property="og:site_name" content="iokubernetes">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="Nginx在实际工作当中用到nginx居多，但是每次的总结都感觉很零散，每次出现问题都需要去百度。导致很被动，所以这里就希望记录一下。 Nginx是一款高性能的HTTP和反向代理服务器，能够选择高效的epoll(linux2.6内核)、kqueue(freebsd)、eventport(solaris10)作为网络I/O模型，能够支持高达50000个并发连接数的响应，而内存、CPU等系统资源消耗却">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-06T02:52:16.664Z">
+<meta property="og:updated_time" content="2019-11-19T05:35:13.108Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="about-nginx-all">
+<meta name="twitter:description" content="Nginx在实际工作当中用到nginx居多，但是每次的总结都感觉很零散，每次出现问题都需要去百度。导致很被动，所以这里就希望记录一下。 Nginx是一款高性能的HTTP和反向代理服务器，能够选择高效的epoll(linux2.6内核)、kqueue(freebsd)、eventport(solaris10)作为网络I/O模型，能够支持高达50000个并发连接数的响应，而内存、CPU等系统资源消耗却">
   
     <link rel="alternative" href="/atom.xml" title="iokubernetes" type="application/atom+xml">
   
@@ -155,39 +155,179 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-hello-world" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-about-nginx-all" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      about-nginx-all
     </h1>
   
 
         
-        <a href="/2019/08/06/hello-world/" class="archive-article-date">
-  	<time datetime="2019-08-06T02:52:16.664Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-06</time>
+        <a href="/2019/11/19/about-nginx-all/" class="archive-article-date">
+  	<time datetime="2019-11-19T03:19:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+        <h2 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h2><p>在实际工作当中用到nginx居多，但是每次的总结都感觉很零散，每次出现问题都需要去百度。导致很被动，所以这里就希望记录一下。</p>
+<p>Nginx是一款高性能的HTTP和反向代理服务器，能够选择高效的epoll(linux2.6内核)、kqueue(freebsd)、eventport(solaris10)作为网络I/O模型，能够支持高达50000个并发连接数的响应，而内存、CPU等系统资源消耗却非常低、运行非常稳定。</p>
+<ul>
+<li>支持高并发连接：nginx使用高效的多路复用模型(epoll/linux, kqueue/freebsd,  eventport/solaris)</li>
+<li>内存消耗少：在服务器3W并发连接下，开启10个Nginx进程消耗150MB内存(15MB*10)</li>
+<li>成本低廉：购买F5 BIG-IP、NetScaler等负载均衡交换机需要几十万RMB，而开源Nginx替代这些商业设备</li>
+<li>网络配置简单;支持rewrite重写规则，能够根据域名、URL的不同、将HTTP请求分到不同的后端服务器群组;内置的健康检查功能;节省带宽，支持GZIP压缩，可以添加浏览器本地缓存的Header头;支持热部署，能够在不间断服务的情况下、对软件版本进行升级</li>
+</ul>
+<a id="more"></a>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>安装的方式有很多种，编译安装，yum安装。这里大家可以自己根据自己的需要去进行。编译安装的定制化需求比较灵活，也是比较推荐的一种方式吧。</p>
+<ul>
+<li><p>安装依赖</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc gcc-c++ pcre-devel openssl openssl-devel zlib zlib-devel</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+</li>
+</ul>
+<ul>
+<li><p>编译安装(这里以tengine为例，淘宝基于nginx开源项目)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src</span><br><span class="line">tar zxvf tengine-2.1.2.tar.gz</span><br><span class="line"><span class="built_in">cd</span> tengine-2.1.2</span><br><span class="line">./configure &amp;&amp; make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加<code>nginx</code>用户</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">groupadd nginx</span><br><span class="line">useradd nginx -g nginx -s /sbin/nologin</span><br><span class="line">mkdir /usr/<span class="built_in">local</span>/nginx/conf/vhost</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改主配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">#主配置文件</span><br><span class="line">[root@linux-node1 conf]# cat /usr/local/nginx/conf/nginx.conf</span><br><span class="line">user  nginx;</span><br><span class="line">worker_processes  auto;</span><br><span class="line">worker_rlimit_nofile 655350;</span><br><span class="line"></span><br><span class="line">error_log  logs/error.log  notice;</span><br><span class="line"></span><br><span class="line">pid        logs/nginx.pid;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    use epoll;</span><br><span class="line">    worker_connections  655350;</span><br><span class="line">    multi_accept on;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</span><br><span class="line">                      &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;</span><br><span class="line">                      &apos;&quot;upstream_response_time&quot; &quot;$upstream_response_time&quot;&apos;</span><br><span class="line">                      &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</span><br><span class="line"></span><br><span class="line">    access_log  off;</span><br><span class="line"></span><br><span class="line">    server_names_hash_bucket_size 256;</span><br><span class="line">    client_header_buffer_size 256k;</span><br><span class="line">    large_client_header_buffers 8 16k;</span><br><span class="line">    client_max_body_size 100M;</span><br><span class="line">    client_body_buffer_size 128k;</span><br><span class="line"></span><br><span class="line">    sendfile        on;</span><br><span class="line">    tcp_nopush     on;</span><br><span class="line"></span><br><span class="line">    keepalive_timeout  300;</span><br><span class="line">    keepalive_requests 8192;</span><br><span class="line">    server_tokens       off;</span><br><span class="line">    underscores_in_headers on;</span><br><span class="line">    ignore_invalid_headers off;</span><br><span class="line">    proxy_intercept_errors on;</span><br><span class="line">    #proxy_http_version 1.1;</span><br><span class="line">    #proxy_set_header Connection &quot;&quot;;</span><br><span class="line">    fastcgi_intercept_errors on;</span><br><span class="line"></span><br><span class="line">    tcp_nodelay on;</span><br><span class="line">    gzip  on;</span><br><span class="line">    gzip_buffers 16 8k;</span><br><span class="line">    gzip_comp_level 6;</span><br><span class="line">    gzip_http_version 1.1;</span><br><span class="line">    gzip_min_length 256;</span><br><span class="line">    gzip_proxied any;</span><br><span class="line">    gzip_vary on;</span><br><span class="line">    gzip_types</span><br><span class="line">        text/xml application/xml application/atom+xml application/rss+xml application/xhtml+xml image/svg+xml</span><br><span class="line">        text/javascript application/javascript application/x-javascript</span><br><span class="line">        text/x-json application/json application/x-web-app-manifest+json</span><br><span class="line">        text/css text/plain text/x-component</span><br><span class="line">        font/opentype application/x-font-ttf application/vnd.ms-fontobject</span><br><span class="line">        image/x-icon;</span><br><span class="line">    gzip_disable  &quot;msie6&quot;;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80 default;</span><br><span class="line">        return 500;</span><br><span class="line">        #error_page  404              /404.html;</span><br><span class="line"></span><br><span class="line">        # redirect server error pages to the static page /50x.html</span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">           root   /usr/local/nginx/html;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    map $http_upgrade $connection_upgrade &#123;</span><br><span class="line">    default upgrade;</span><br><span class="line">      &apos;&apos;      close;</span><br><span class="line">    &#125;</span><br><span class="line">    include /usr/local/nginx/conf/vhost/*.conf;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>设置开机启动项</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[root@linux-node1 conf]<span class="comment"># cat /usr/lib/systemd/system/nginx.service</span></span><br><span class="line">[Unit]</span><br><span class="line">Description=The nginx HTTP and reverse proxy server</span><br><span class="line">After=network.target remote-fs.target nss-lookup.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">PIDFile=/usr/<span class="built_in">local</span>/nginx/logs/nginx.pid</span><br><span class="line"><span class="comment"># Nginx will fail to start if /run/nginx.pid already exists but has the wrong</span></span><br><span class="line"><span class="comment"># SELinux context. This might happen when running `nginx -t` from the cmdline.</span></span><br><span class="line"><span class="comment"># https://bugzilla.redhat.com/show_bug.cgi?id=1268621</span></span><br><span class="line">ExecStartPre=/usr/bin/rm -f /usr/<span class="built_in">local</span>/nginx/logs/nginx.pid</span><br><span class="line">ExecStartPre=/usr/<span class="built_in">local</span>/nginx/sbin/nginx -t -c /usr/<span class="built_in">local</span>/nginx/conf/nginx.conf</span><br><span class="line">ExecStart=/usr/<span class="built_in">local</span>/nginx/sbin/nginx -c /usr/<span class="built_in">local</span>/nginx/conf/nginx.conf</span><br><span class="line">ExecReload=/bin/<span class="built_in">kill</span> -s HUP <span class="variable">$MAINPID</span></span><br><span class="line">KillSignal=SIGQUIT</span><br><span class="line">TimeoutStopSec=5</span><br><span class="line">KillMode=process</span><br><span class="line">PrivateTmp=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>开机启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload &amp;&amp; systemctl start nginx &amp;&amp; systemctl <span class="built_in">enable</span> nginx</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h2 id="配置文件详解"><a href="#配置文件详解" class="headerlink" title="配置文件详解"></a>配置文件详解</h2><ul>
+<li>main（http 全局设置） main部分设置的指令将影响其它所有部分的设置；</li>
+<li>server（主机设置） server部分的指令主要用于指定虚拟主机域名、IP和端口；</li>
+<li>upstream  upstream的指令用于设置一系列的后端服务器，设置反向代理及后端服务器的负载均衡；</li>
+<li>location  location部分用于匹配网页位置（比如，根目录“/”,“/images”,等等）；</li>
+</ul>
+<p>server继承main，location继承server；upstream既不会继承指令也不会被继承。它有自己的特殊指令，不需要在其他地方的应用。</p>
+<h4 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"># gzip压缩功能设置</span><br><span class="line">gzip on;</span><br><span class="line">gzip_min_length 1k;</span><br><span class="line">gzip_buffers 4 16k;</span><br><span class="line">gzip_http_version 1.0;</span><br><span class="line">gzip_comp_level 6;</span><br><span class="line">gzip_types text/html text/plain text/css text/javascript application/json application/javascript application/x-javascript application/xml;</span><br><span class="line">gzip_vary on;</span><br><span class="line"># http_proxy 设置</span><br><span class="line">client_max_body_size 10m;</span><br><span class="line">client_body_buffer_size 128k;</span><br><span class="line">proxy_connect_timeout 75;</span><br><span class="line">proxy_send_timeout 75;</span><br><span class="line">proxy_read_timeout 75;</span><br><span class="line">proxy_buffer_size 4k;</span><br><span class="line">proxy_buffers 4 32k;</span><br><span class="line">proxy_busy_buffers_size 64k;</span><br><span class="line">proxy_temp_file_write_size 64k;</span><br><span class="line">proxy_temp_path /usr/local/nginx/proxy_temp 1 2;</span><br><span class="line"># 很重要的虚拟主机配置</span><br><span class="line">server &#123;</span><br><span class="line">listen 80;</span><br><span class="line">server_name itoatest.example.com;</span><br><span class="line">root /apps/oaapp;</span><br><span class="line">charset utf-8;</span><br><span class="line">access_log logs/host.access.log main;</span><br><span class="line">#对 / 所有做负载均衡+反向代理</span><br><span class="line">location / &#123;</span><br><span class="line">root /apps/oaapp;</span><br><span class="line">index index.jsp index.html index.htm;</span><br><span class="line">proxy_pass http://backend;</span><br><span class="line">proxy_redirect off;</span><br><span class="line"># 后端的Web服务器可以通过X-Forwarded-For获取用户真实IP</span><br><span class="line">proxy_set_header Host $host;</span><br><span class="line">proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;</span><br><span class="line">&#125;</span><br><span class="line">#静态文件，nginx自己处理，不去backend请求tomcat</span><br><span class="line">location ~* /download/ &#123;</span><br><span class="line">root /apps/oa/fs;</span><br><span class="line">&#125;</span><br><span class="line">location ~ .*\.(gif|jpg|jpeg|bmp|png|ico|txt|js|css)$</span><br><span class="line">&#123;</span><br><span class="line">root /apps/oaapp;</span><br><span class="line">expires 7d;</span><br><span class="line">&#125;</span><br><span class="line">location /nginx_status &#123;</span><br><span class="line">stub_status on;</span><br><span class="line">access_log off;</span><br><span class="line">allow 192.168.10.0/24;</span><br><span class="line">deny all;</span><br><span class="line">&#125;</span><br><span class="line">location ~ ^/(WEB-INF)/ &#123;</span><br><span class="line">deny all;</span><br><span class="line">&#125;</span><br><span class="line">#error_page 404 /404.html;</span><br><span class="line"># redirect server error pages to the static page /50x.html</span><br><span class="line">#</span><br><span class="line">error_page 500 502 503 504 /50x.html;</span><br><span class="line">location = /50x.html &#123;</span><br><span class="line">root html;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">## 其它虚拟主机，server 指令开始</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="HTTP服务器"><a href="#HTTP服务器" class="headerlink" title="HTTP服务器"></a>HTTP服务器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sendfile on;</span><br><span class="line">开启高效文件传输模式，sendfile指令指定nginx是否调用sendfile函数来输出文件，减少用户空间到内核空间的上下文切换。对于普通应用设为 on，如果用来进行下载等应用磁盘IO重负载应用，可设置为off，以平衡磁盘与网络I/O处理速度，降低系统的负载；</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">keepalive_timeout 65;</span><br><span class="line">长连接超时时间，单位是秒，这个参数很敏感，涉及浏览器的种类、后端服务器的超时设置、操作系统的设置，可以另外起一片文章了。长连接请求大量小文件的时候，可以减少重建连接的开销，但假如有大文件上传，65s内没上传完成会导致失败。如果设置时间过长，用户又多，长时间保持连接会占用大量资源；</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">send_timeout ;</span><br><span class="line">用于指定响应客户端的超时时间。这个超时仅限于两个连接活动之间的时间，如果超过这个时间，客户端没有任何活动，Nginx将会关闭连接；</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">client_max_body_size 10m;</span><br><span class="line">允许客户端请求的最大单文件字节数。如果有上传较大文件，请设置它的限制值；</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">client_body_buffer_size 128k;</span><br><span class="line">缓冲区代理缓冲用户端请求的最大字节数；</span><br></pre></td></tr></table></figure>
+
+<h4 id="模块http-proxy"><a href="#模块http-proxy" class="headerlink" title="模块http_proxy"></a>模块http_proxy</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">proxy_read_timeout 60;</span><br><span class="line">连接成功后，与后端服务器两个成功的响应操作之间超时时间(代理接收超时)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">proxy_buffer_size 4k;</span><br><span class="line">设置代理服务器（nginx）从后端realserver读取并保存用户头信息的缓冲区大小，默认与proxy_buffers大小相同，其实可以将这个指令值设的小一点</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">proxy_buffers 4 32k;</span><br><span class="line">proxy_buffers缓冲区，nginx针对单个连接缓存来自后端realserver的响应，网页平均在32k以下的话，这样设置</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">proxy_busy_buffers_size 64k;</span><br><span class="line">当 proxy_buffers 放不下后端服务器的响应内容时，会将一部分保存到硬盘的临时文件中，这个值用来设置最大临时文件大小，默认1024M，它与 proxy_cache 没有关系。大于这个值，将从upstream服务器传回。设置为0禁用。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">proxy_busy_buffers_size 64k;</span><br><span class="line">高负荷下缓冲大小（proxy_buffers*2）</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">proxy_max_temp_file_size;</span><br><span class="line">当 proxy_buffers 放不下后端服务器的响应内容时，会将一部分保存到硬盘的临时文件中，这个值用来设置最大临时文件大小，默认1024M，它与 proxy_cache 没有关系。大于这个值，将从upstream服务器传回。设置为0禁用。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">proxy_temp_file_write_size 64k;</span><br><span class="line">当缓存被代理的服务器响应到临时文件时，这个选项限制每次写临时文件的大小。proxy_temp_path（可以在编译的时候）指定写到哪那个目录。</span><br></pre></td></tr></table></figure>
+
+<h4 id="模块http-gzip"><a href="#模块http-gzip" class="headerlink" title="模块http_gzip"></a>模块http_gzip</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gzip on :</span><br><span class="line">开启gzip压缩输出，减少网络传输</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gzip_min_length 1k;</span><br><span class="line">设置允许压缩的页面最小字节数，页面字节数从header头得content-length中进行获取。默认值是20。建议设置成大于1k的字节数，小于1k可能会越压越大。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gzip_buffers 4 16k ：</span><br><span class="line">设置系统获取几个单位的缓存用于存储gzip的压缩结果数据流。4 16k代表以16k为单位，安装原始数据大小以16k为单位的4倍申请内存。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gzip_http_version 1.0 ：</span><br><span class="line">用于识别 http 协议的版本，早期的浏览器不支持 Gzip 压缩，用户就会看到乱码，所以为了支持前期版本加上了这个选项，如果你用了 Nginx 的反向代理并期望也启用 Gzip 压缩的话，由于末端通信是 http/1.0，故请设置为 1.0。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gzip_comp_level 6 ：</span><br><span class="line">gzip压缩比，1压缩比最小处理速度最快，9压缩比最大但处理速度最慢(传输快但比较消耗cpu)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gzip_types</span><br><span class="line">匹配mime类型进行压缩，无论是否指定,”text/html”类型总是会被压缩的。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gzip_proxied any</span><br><span class="line">Nginx作为反向代理的时候启用，决定开启或者关闭后端服务器返回的结果是否压缩，匹配的前提是后端服务器必须要返回包含”Via”的 header头。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gzip_vary on ：</span><br><span class="line">和http头有关系，会在响应头加个 Vary: Accept-Encoding ，可以让前端的缓存服务器缓存经过gzip压缩的页面，例如，用Squid缓存经过Nginx压缩的数据。</span><br></pre></td></tr></table></figure>
+
+<h4 id="访问控制-allow-deny"><a href="#访问控制-allow-deny" class="headerlink" title="访问控制 allow/deny"></a>访问控制 allow/deny</h4><p>Nginx 的访问控制模块默认就会安装，而且写法也非常简单，可以分别有多个allow,deny，允许或禁止某个ip或ip段访问，依次满足任何一个规则就停止往下匹配。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">location /nginx-status &#123;</span><br><span class="line">stub_status on;</span><br><span class="line">access_log off;</span><br><span class="line"># auth_basic &quot;NginxStatus&quot;;</span><br><span class="line"># auth_basic_user_file /usr/local/nginx-1.6/htpasswd;</span><br><span class="line">allow 192.168.10.100;</span><br><span class="line">allow 172.29.73.0/24;</span><br><span class="line">deny all;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也常用 httpd-devel 工具的 htpasswd 来为访问的路径设置登录密码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># htpasswd -c htpasswd admin</span></span><br><span class="line">New passwd:</span><br><span class="line">Re-type new password:</span><br><span class="line">Adding password <span class="keyword">for</span> user admin</span><br><span class="line"><span class="comment"># htpasswd htpasswd admin //修改admin密码</span></span><br><span class="line"><span class="comment"># htpasswd htpasswd sean //多添加一个认证用户</span></span><br></pre></td></tr></table></figure>
+
+<p>这样就生成了默认使用CRYPT加密的密码文件。打开上面nginx-status的两行注释，重启nginx生效。</p>
+<h4 id="列出目录-autoindex"><a href="#列出目录-autoindex" class="headerlink" title="列出目录 autoindex"></a>列出目录 autoindex</h4><p>Nginx默认是不允许列出整个目录的。如需此功能，打开nginx.conf文件，在location，server 或 http段中加入autoindex on;，另外两个参数最好也加上去:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">autoindex_exact_size off; </span><br><span class="line">默认为on，显示出文件的确切大小，单位是bytes。改为off后，显示出文件的大概大小，单位是kB或者MB或者GB</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">autoindex_localtime on;</span><br><span class="line">默认为off，显示的文件时间为GMT时间。改为on后，显示的文件时间为文件的服务器时间</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">location /images &#123;</span><br><span class="line">root /var/www/nginx-default/images;</span><br><span class="line">autoindex on;</span><br><span class="line">autoindex_exact_size off;</span><br><span class="line">autoindex_localtime on;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><h4 id="Nginx配置文件优化"><a href="#Nginx配置文件优化" class="headerlink" title="Nginx配置文件优化"></a>Nginx配置文件优化</h4><p>-  nginx进程数，建议按照cpu数目来指定，新版本的nginx已支持自动设置:</p>
+<p>-  worker_processes auto;</p>
+<p>-  nginx进程打开的最多文件描述符数目:</p>
+<p>-  worker_rlimit_nofile 102400;</p>
+<p>-  使用epoll的I/O复用模型:</p>
+<p>-  use epoll;</p>
+<p>-  每个进程允许的最多连接数:</p>
+<p>-  worker_connections 102400;</p>
+<p>- keepalive超时时间:</p>
+<p>- keepalive_timeout 60;</p>
+<p>- 客户端请求头部的缓冲区大小: (分页大小可以用命令getconf PAGESIZE取得):</p>
+<p>- client_header_buffer_size 4k;</p>
+<p>-  打开文件指定缓存，默认是没有启用的，max指定缓存数量，建议和打开文件数一致，inactive是指经过多长时间文件没被请求后删除缓存:</p>
+<p>-  open_file_cache max=102400 inactive=20s;</p>
+<p>-  指定多长时间检查一次缓存的有效信息:</p>
+<p>-  open_file_cache_valid 30s;</p>
+<p>-  设置最少使用次数，如果超过这个数字，文件描述符一直是在缓存中打开的:</p>
+<p>- open_file_cache_min_uses 1;</p>
+<h4 id="系统优化"><a href="#系统优化" class="headerlink" title="系统优化"></a>系统优化</h4><p>-  timewait的数量，默认是180000。(Deven:因此如果想把timewait降下了就要把tcp_max_tw_buckets值减小)：</p>
+<p>- net.ipv4.tcp_max_tw_buckets = 6000</p>
+<p>- 允许系统打开的端口范围:</p>
+<p>- net.ipv4.ip_local_port_range = 1024 65000</p>
+<p>- 启用timewait快速回收:</p>
+<p>- net.ipv4.tcp_tw_recycle = 1</p>
+<p>- 开启重用。允许将TIME-WAIT sockets重新用于新的TCP连接:</p>
+<p>- net.ipv4.tcp_tw_reuse = 1</p>
+<p>- 开启SYN Cookies，当出现SYN等待队列溢出时，启用cookies来处理:</p>
+<p>- net.ipv4.tcp_syncookies = 1</p>
+<p>-  web应用中listen函数的backlog默认会给我们内核参数的net.core.somaxconn限制到128，而nginx定义的NGX_LISTEN_BACKLOG默认为511:</p>
+<p>- net.core.somaxconn = 262144</p>
+<p>- 允许送到队列的数据包的***数目:</p>
+<p>- net.core.netdev_max_backlog = 262144</p>
+<p>- 系统中最多有多少个TCP套接字不被关联到任何一个用户文件句柄上:</p>
+<p>- net.ipv4.tcp_max_orphans = 262144</p>
+<p>- 记录的那些尚未收到客户端确认信息的连接请求的***值:</p>
+<p>- net.ipv4.tcp_max_syn_backlog = 262144</p>
+<p>- 时间戳可以避免序列号的卷绕:</p>
+<p>- net.ipv4.tcp_timestamps = 0</p>
+<p>- 内核放弃连接之前发送SYN+ACK包:</p>
+<p>- net.ipv4.tcp_synack_retries = 1</p>
+<p>- 内核放弃建立连接之前发送SYN包的数量:</p>
+<p>- net.ipv4.tcp_syn_retries = 1</p>
+<p>- 保持在FIN-WAIT-2状态的时间:</p>
+<p>- net.ipv4.tcp_fin_timeout = 1</p>
+<p>- 当keepalive起用的时候，TCP发送keepalive消息的频度。缺省是2小时:</p>
+<p>- net.ipv4.tcp_keepalive_time = 30</p>
 
       
 
@@ -227,7 +367,29 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">LINUX运维</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/linux运维//" class="article-tag-list-link color3">LINUX运维</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
 
       
 
@@ -240,15 +402,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/08/08/nginx-keepalived构建高可用负载均衡/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Nginx+keepalived构建高可用负载均衡
-        
-      </div>
-    </a>
   
+    <a href="/2019/09/11/ceph安装部署/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ceph安装部署</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
