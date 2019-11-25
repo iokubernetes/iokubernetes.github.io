@@ -6,16 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://iokubernetes.github.io">
-  <title>iokubernetes</title>
+  <title>harbor-quick-install | iokubernetes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="kubernetes,docker,golang,python,linux">
-<meta property="og:type" content="website">
-<meta property="og:title" content="iokubernetes">
-<meta property="og:url" content="https://iokubernetes.github.io/index.html">
+  <meta name="description" content="在 Kubernetes 在快速安装 Harbor安装HarborHarbor 支持多种安装方式，源码目录下面默认有一个安装脚本（make/install.sh），采用 docker-compose 的形式运行 Harbor 各个组件，和前面的课程一样，我们这里依然还是将 Harbor 安装到 Kubernetes 集群中，如果我们对 Harbor 的各个组件之间的运行关系非常熟悉，同样的，我们可">
+<meta name="keywords" content="harbor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="harbor-quick-install">
+<meta property="og:url" content="https://iokubernetes.github.io/2019/11/25/harbor-quick-install/index.html">
 <meta property="og:site_name" content="iokubernetes">
+<meta property="og:description" content="在 Kubernetes 在快速安装 Harbor安装HarborHarbor 支持多种安装方式，源码目录下面默认有一个安装脚本（make/install.sh），采用 docker-compose 的形式运行 Harbor 各个组件，和前面的课程一样，我们这里依然还是将 Harbor 安装到 Kubernetes 集群中，如果我们对 Harbor 的各个组件之间的运行关系非常熟悉，同样的，我们可">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-11-25T03:32:12.797Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iokubernetes">
+<meta name="twitter:title" content="harbor-quick-install">
+<meta name="twitter:description" content="在 Kubernetes 在快速安装 Harbor安装HarborHarbor 支持多种安装方式，源码目录下面默认有一个安装脚本（make/install.sh），采用 docker-compose 的形式运行 Harbor 各个组件，和前面的课程一样，我们这里依然还是将 Harbor 安装到 Kubernetes 集群中，如果我们对 Harbor 的各个组件之间的运行关系非常熟悉，同样的，我们可">
   
     <link rel="alternative" href="/atom.xml" title="iokubernetes" type="application/atom+xml">
   
@@ -151,16 +155,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-harbor-quick-install" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-harbor-quick-install" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/25/harbor-quick-install/">harbor-quick-install</a>
+    <h1 class="article-title" itemprop="name">
+      harbor-quick-install
     </h1>
   
 
@@ -175,11 +177,98 @@
       
         <h2 id="在-Kubernetes-在快速安装-Harbor"><a href="#在-Kubernetes-在快速安装-Harbor" class="headerlink" title="在 Kubernetes 在快速安装 Harbor"></a>在 Kubernetes 在快速安装 Harbor</h2><h3 id="安装Harbor"><a href="#安装Harbor" class="headerlink" title="安装Harbor"></a>安装Harbor</h3><p>Harbor 支持多种安装方式，源码目录下面默认有一个安装脚本（make/install.sh），采用 docker-compose 的形式运行 Harbor 各个组件，和前面的课程一样，我们这里依然还是将 Harbor 安装到 Kubernetes 集群中，如果我们对 Harbor 的各个组件之间的运行关系非常熟悉，同样的，我们可以自己手动编写资源清单文件进行部署，不过 Harbor 源码目录中也为我们提供了生成这些资源清单的脚本文件了（make/kubernetes/k8s-prepare），我们只需要执行下面的命令即可为我们生成所需要用到的 YAML 文件了。</p>
 <p>原文链接：<code>https://www.qikqiak.com/post/harbor-quick-install/</code></p>
-        
-          <a class="article-more-a" href="/2019/11/25/harbor-quick-install/#more">more >></a>
-        
+<a id="more"></a>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python make/kubernetes/k8s-prepare</span><br></pre></td></tr></table></figure>
+
+<p>当然了如果上面的一些基本配置不能满足你的需求，你也可以做一些更高级的配置。你可以在<code>make/common/templates</code>目录下面找到所有的 Harbor 的配置模板，做相应的修改即可。</p>
+<p>不过我们这里给大家介绍另外一种简单的安装方法：Helm，Harbor 官方提供了对应的 Helm Chart 包，所以我们可以很容易安装。</p>
+<p>首先下载 Harbor Chart 包到要安装的集群上：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/goharbor/harbor-helm</span><br></pre></td></tr></table></figure>
+
+<p>安装 Helm Chart 包最重要的当然是<code>values.yaml</code>文件了，我们可以通过覆盖该文件中的属性来改变配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">expose:</span></span><br><span class="line">  <span class="comment"># 设置暴露服务的方式。将类型设置为 ingress、clusterIP或nodePort并补充对应部分的信息。</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">ingress</span></span><br><span class="line"><span class="attr">  tls:</span></span><br><span class="line">    <span class="comment"># 是否开启 tls，注意：如果类型是 ingress 并且tls被禁用，则在pull/push镜像时，则必须包含端口。详细查看文档：https://github.com/goharbor/harbor/issues/5291。</span></span><br><span class="line"><span class="attr">    enabled:</span> <span class="literal">true</span></span><br><span class="line">    <span class="comment"># 如果你想使用自己的 TLS 证书和私钥，请填写这个 secret 的名称，这个 secret 必须包含名为 tls.crt 和 tls.key 的证书和私钥文件，如果没有设置则会自动生成证书和私钥文件。</span></span><br><span class="line"><span class="attr">    secretName:</span> <span class="string">""</span></span><br><span class="line">    <span class="comment"># 默认 Notary 服务会使用上面相同的证书和私钥文件，如果你想用一个独立的则填充下面的字段，注意只有类型是 ingress 的时候才需要。</span></span><br><span class="line"><span class="attr">    notarySecretName:</span> <span class="string">""</span></span><br><span class="line">    <span class="comment"># common name 是用于生成证书的，当类型是 clusterIP 或者 nodePort 并且 secretName 为空的时候才需要</span></span><br><span class="line"><span class="attr">    commonName:</span> <span class="string">""</span></span><br><span class="line"><span class="attr">  ingress:</span></span><br><span class="line"><span class="attr">    hosts:</span></span><br><span class="line"><span class="attr">      core:</span> <span class="string">core.harbor.domain</span></span><br><span class="line"><span class="attr">      notary:</span> <span class="string">notary.harbor.domain</span></span><br><span class="line"><span class="attr">    annotations:</span></span><br><span class="line">      <span class="string">ingress.kubernetes.io/ssl-redirect:</span> <span class="string">"true"</span></span><br><span class="line">      <span class="string">nginx.ingress.kubernetes.io/ssl-redirect:</span> <span class="string">"true"</span></span><br><span class="line">      <span class="string">ingress.kubernetes.io/proxy-body-size:</span> <span class="string">"0"</span></span><br><span class="line">      <span class="string">nginx.ingress.kubernetes.io/proxy-body-size:</span> <span class="string">"0"</span></span><br><span class="line"><span class="attr">  clusterIP:</span></span><br><span class="line">    <span class="comment"># ClusterIP 服务的名称</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">harbor</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="attr">      httpPort:</span> <span class="number">80</span></span><br><span class="line"><span class="attr">      httpsPort:</span> <span class="number">443</span></span><br><span class="line">      <span class="comment"># Notary 服务监听端口，只有当 notary.enabled 设置为 true 的时候有效</span></span><br><span class="line"><span class="attr">      notaryPort:</span> <span class="number">4443</span></span><br><span class="line"><span class="attr">  nodePort:</span></span><br><span class="line">    <span class="comment"># NodePort 服务名称</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">harbor</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="attr">      http:</span></span><br><span class="line"><span class="attr">        port:</span> <span class="number">80</span></span><br><span class="line"><span class="attr">        nodePort:</span> <span class="number">30002</span></span><br><span class="line"><span class="attr">      https:</span></span><br><span class="line"><span class="attr">        port:</span> <span class="number">443</span></span><br><span class="line"><span class="attr">        nodePort:</span> <span class="number">30003</span></span><br><span class="line"><span class="attr">      notary:</span></span><br><span class="line"><span class="attr">        port:</span> <span class="number">4443</span></span><br><span class="line"><span class="attr">        nodePort:</span> <span class="number">30004</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Harbor 核心服务外部访问 URL。主要用于：</span></span><br><span class="line"><span class="comment"># 1) 补全 portal 页面上面显示的 docker/helm 命令</span></span><br><span class="line"><span class="comment"># 2) 补全返回给 docker/notary 客户端的 token 服务 URL</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 格式：protocol://domain[:port]。</span></span><br><span class="line"><span class="comment"># 1) 如果 expose.type=ingress，"domain"的值就是 expose.ingress.hosts.core 的值</span></span><br><span class="line"><span class="comment"># 2) 如果 expose.type=clusterIP，"domain"的值就是 expose.clusterIP.name 的值</span></span><br><span class="line"><span class="comment"># 3) 如果 expose.type=nodePort，"domain"的值就是 k8s 节点的 IP 地址</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果在代理后面部署 Harbor，请将其设置为代理的 URL</span></span><br><span class="line"><span class="attr">externalURL:</span> <span class="attr">https://core.harbor.domain</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 默认情况下开启数据持久化，在k8s集群中需要动态的挂载卷默认需要一个StorageClass对象。</span></span><br><span class="line"><span class="comment"># 如果你有已经存在可以使用的持久卷，需要在"storageClass"中指定你的 storageClass 或者设置 "existingClaim"。</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># 对于存储 docker 镜像和 Helm charts 包，你也可以用 "azure"、"gcs"、"s3"、"swift" 或者 "oss"，直接在 "imageChartStorage" 区域设置即可</span></span><br><span class="line"><span class="attr">persistence:</span></span><br><span class="line"><span class="attr">  enabled:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># 设置成"keep"避免在执行 helm 删除操作期间移除 PVC，留空则在 chart 被删除后删除 PVC</span></span><br><span class="line"><span class="attr">  resourcePolicy:</span> <span class="string">"keep"</span></span><br><span class="line"><span class="attr">  persistentVolumeClaim:</span></span><br><span class="line"><span class="attr">    registry:</span></span><br><span class="line">      <span class="comment"># 使用一个存在的 PVC(必须在绑定前先手动创建)</span></span><br><span class="line"><span class="attr">      existingClaim:</span> <span class="string">""</span></span><br><span class="line">      <span class="comment"># 指定"storageClass"，或者使用默认的 StorageClass 对象，设置成"-"禁用动态分配挂载卷</span></span><br><span class="line"><span class="attr">      storageClass:</span> <span class="string">""</span></span><br><span class="line"><span class="attr">      subPath:</span> <span class="string">""</span></span><br><span class="line"><span class="attr">      accessMode:</span> <span class="string">ReadWriteOnce</span></span><br><span class="line"><span class="attr">      size:</span> <span class="number">5</span><span class="string">Gi</span></span><br><span class="line"><span class="attr">    chartmuseum:</span></span><br><span class="line"><span class="attr">      existingClaim:</span> <span class="string">""</span></span><br><span class="line"><span class="attr">      storageClass:</span> <span class="string">""</span></span><br><span class="line"><span class="attr">      subPath:</span> <span class="string">""</span></span><br><span class="line"><span class="attr">      accessMode:</span> <span class="string">ReadWriteOnce</span></span><br><span class="line"><span class="attr">      size:</span> <span class="number">5</span><span class="string">Gi</span></span><br><span class="line"><span class="attr">    jobservice:</span></span><br><span class="line"><span class="attr">      existingClaim:</span> <span class="string">""</span></span><br><span class="line"><span class="attr">      storageClass:</span> <span class="string">""</span></span><br><span class="line"><span class="attr">      subPath:</span> <span class="string">""</span></span><br><span class="line"><span class="attr">      accessMode:</span> <span class="string">ReadWriteOnce</span></span><br><span class="line"><span class="attr">      size:</span> <span class="number">1</span><span class="string">Gi</span></span><br><span class="line">    <span class="comment"># 如果使用外部的数据库服务，下面的设置将会被忽略</span></span><br><span class="line"><span class="attr">    database:</span></span><br><span class="line"><span class="attr">      existingClaim:</span> <span class="string">""</span></span><br><span class="line"><span class="attr">      storageClass:</span> <span class="string">""</span></span><br><span class="line"><span class="attr">      subPath:</span> <span class="string">""</span></span><br><span class="line"><span class="attr">      accessMode:</span> <span class="string">ReadWriteOnce</span></span><br><span class="line"><span class="attr">      size:</span> <span class="number">1</span><span class="string">Gi</span></span><br><span class="line">    <span class="comment"># 如果使用外部的 Redis 服务，下面的设置将会被忽略</span></span><br><span class="line"><span class="attr">    redis:</span></span><br><span class="line"><span class="attr">      existingClaim:</span> <span class="string">""</span></span><br><span class="line"><span class="attr">      storageClass:</span> <span class="string">""</span></span><br><span class="line"><span class="attr">      subPath:</span> <span class="string">""</span></span><br><span class="line"><span class="attr">      accessMode:</span> <span class="string">ReadWriteOnce</span></span><br><span class="line"><span class="attr">      size:</span> <span class="number">1</span><span class="string">Gi</span></span><br><span class="line">  <span class="comment"># 定义使用什么存储后端来存储镜像和 charts 包，详细文档地址：https://github.com/docker/distribution/blob/master/docs/configuration.md#storage</span></span><br><span class="line"><span class="attr">  imageChartStorage:</span></span><br><span class="line">    <span class="comment"># 正对镜像和chart存储是否禁用跳转，对于一些不支持的后端(例如对于使用minio的`s3`存储)，需要禁用它。为了禁止跳转，只需要设置`disableredirect=true`即可，详细文档地址：https://github.com/docker/distribution/blob/master/docs/configuration.md#redirect</span></span><br><span class="line"><span class="attr">    disableredirect:</span> <span class="literal">false</span></span><br><span class="line">    <span class="comment"># 指定存储类型："filesystem", "azure", "gcs", "s3", "swift", "oss"，在相应的区域填上对应的信息。</span></span><br><span class="line">    <span class="comment"># 如果你想使用 pv 则必须设置成"filesystem"类型</span></span><br><span class="line"><span class="attr">    type:</span> <span class="string">filesystem</span></span><br><span class="line"><span class="attr">    filesystem:</span></span><br><span class="line"><span class="attr">      rootdirectory:</span> <span class="string">/storage</span></span><br><span class="line">      <span class="comment">#maxthreads: 100</span></span><br><span class="line"><span class="attr">    azure:</span></span><br><span class="line"><span class="attr">      accountname:</span> <span class="string">accountname</span></span><br><span class="line"><span class="attr">      accountkey:</span> <span class="string">base64encodedaccountkey</span></span><br><span class="line"><span class="attr">      container:</span> <span class="string">containername</span></span><br><span class="line">      <span class="comment">#realm: core.windows.net</span></span><br><span class="line"><span class="attr">    gcs:</span></span><br><span class="line"><span class="attr">      bucket:</span> <span class="string">bucketname</span></span><br><span class="line">      <span class="comment"># The base64 encoded json file which contains the key</span></span><br><span class="line"><span class="attr">      encodedkey:</span> <span class="string">base64-encoded-json-key-file</span></span><br><span class="line">      <span class="comment">#rootdirectory: /gcs/object/name/prefix</span></span><br><span class="line">      <span class="comment">#chunksize: "5242880"</span></span><br><span class="line"><span class="attr">    s3:</span></span><br><span class="line"><span class="attr">      region:</span> <span class="string">us-west-1</span></span><br><span class="line"><span class="attr">      bucket:</span> <span class="string">bucketname</span></span><br><span class="line">      <span class="comment">#accesskey: awsaccesskey</span></span><br><span class="line">      <span class="comment">#secretkey: awssecretkey</span></span><br><span class="line">      <span class="comment">#regionendpoint: http://myobjects.local</span></span><br><span class="line">      <span class="comment">#encrypt: false</span></span><br><span class="line">      <span class="comment">#keyid: mykeyid</span></span><br><span class="line">      <span class="comment">#secure: true</span></span><br><span class="line">      <span class="comment">#v4auth: true</span></span><br><span class="line">      <span class="comment">#chunksize: "5242880"</span></span><br><span class="line">      <span class="comment">#rootdirectory: /s3/object/name/prefix</span></span><br><span class="line">      <span class="comment">#storageclass: STANDARD</span></span><br><span class="line"><span class="attr">    swift:</span></span><br><span class="line"><span class="attr">      authurl:</span> <span class="attr">https://storage.myprovider.com/v3/auth</span></span><br><span class="line"><span class="attr">      username:</span> <span class="string">username</span></span><br><span class="line"><span class="attr">      password:</span> <span class="string">password</span></span><br><span class="line"><span class="attr">      container:</span> <span class="string">containername</span></span><br><span class="line">      <span class="comment">#region: fr</span></span><br><span class="line">      <span class="comment">#tenant: tenantname</span></span><br><span class="line">      <span class="comment">#tenantid: tenantid</span></span><br><span class="line">      <span class="comment">#domain: domainname</span></span><br><span class="line">      <span class="comment">#domainid: domainid</span></span><br><span class="line">      <span class="comment">#trustid: trustid</span></span><br><span class="line">      <span class="comment">#insecureskipverify: false</span></span><br><span class="line">      <span class="comment">#chunksize: 5M</span></span><br><span class="line">      <span class="comment">#prefix:</span></span><br><span class="line">      <span class="comment">#secretkey: secretkey</span></span><br><span class="line">      <span class="comment">#accesskey: accesskey</span></span><br><span class="line">      <span class="comment">#authversion: 3</span></span><br><span class="line">      <span class="comment">#endpointtype: public</span></span><br><span class="line">      <span class="comment">#tempurlcontainerkey: false</span></span><br><span class="line">      <span class="comment">#tempurlmethods:</span></span><br><span class="line"><span class="attr">    oss:</span></span><br><span class="line"><span class="attr">      accesskeyid:</span> <span class="string">accesskeyid</span></span><br><span class="line"><span class="attr">      accesskeysecret:</span> <span class="string">accesskeysecret</span></span><br><span class="line"><span class="attr">      region:</span> <span class="string">regionname</span></span><br><span class="line"><span class="attr">      bucket:</span> <span class="string">bucketname</span></span><br><span class="line">      <span class="comment">#endpoint: endpoint</span></span><br><span class="line">      <span class="comment">#internal: false</span></span><br><span class="line">      <span class="comment">#encrypt: false</span></span><br><span class="line">      <span class="comment">#secure: true</span></span><br><span class="line">      <span class="comment">#chunksize: 10M</span></span><br><span class="line">      <span class="comment">#rootdirectory: rootdirectory</span></span><br><span class="line"></span><br><span class="line"><span class="attr">imagePullPolicy:</span> <span class="string">IfNotPresent</span></span><br><span class="line"></span><br><span class="line"><span class="attr">logLevel:</span> <span class="string">debug</span></span><br><span class="line"><span class="comment"># Harbor admin 初始密码，Harbor 启动后通过 Portal 修改该密码</span></span><br><span class="line"><span class="attr">harborAdminPassword:</span> <span class="string">"Harbor12345"</span></span><br><span class="line"><span class="comment"># 用于加密的一个 secret key，必须是一个16位的字符串</span></span><br><span class="line"><span class="attr">secretKey:</span> <span class="string">"not-a-secure-key"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果你通过"ingress"保留服务，则下面的Nginx不会被使用</span></span><br><span class="line"><span class="attr">nginx:</span></span><br><span class="line"><span class="attr">  image:</span></span><br><span class="line"><span class="attr">    repository:</span> <span class="string">goharbor/nginx-photon</span></span><br><span class="line"><span class="attr">    tag:</span> <span class="string">v1.7.0</span></span><br><span class="line"><span class="attr">  replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="comment"># resources:</span></span><br><span class="line">  <span class="comment">#  requests:</span></span><br><span class="line">  <span class="comment">#    memory: 256Mi</span></span><br><span class="line">  <span class="comment">#    cpu: 100m</span></span><br><span class="line"><span class="attr">  nodeSelector:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"><span class="attr">  tolerations:</span> <span class="string">[]</span></span><br><span class="line"><span class="attr">  affinity:</span> <span class="string">&#123;&#125;</span></span><br><span class="line">  <span class="comment">## 额外的 Deployment 的一些 annotations</span></span><br><span class="line"><span class="attr">  podAnnotations:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">portal:</span></span><br><span class="line"><span class="attr">  image:</span></span><br><span class="line"><span class="attr">    repository:</span> <span class="string">goharbor/harbor-portal</span></span><br><span class="line"><span class="attr">    tag:</span> <span class="string">v1.7.0</span></span><br><span class="line"><span class="attr">  replicas:</span> <span class="number">1</span></span><br><span class="line"><span class="comment"># resources:</span></span><br><span class="line"><span class="comment">#  requests:</span></span><br><span class="line"><span class="comment">#    memory: 256Mi</span></span><br><span class="line"><span class="comment">#    cpu: 100m</span></span><br><span class="line"><span class="attr">  nodeSelector:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"><span class="attr">  tolerations:</span> <span class="string">[]</span></span><br><span class="line"><span class="attr">  affinity:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"><span class="attr">  podAnnotations:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">core:</span></span><br><span class="line"><span class="attr">  image:</span></span><br><span class="line"><span class="attr">    repository:</span> <span class="string">goharbor/harbor-core</span></span><br><span class="line"><span class="attr">    tag:</span> <span class="string">v1.7.0</span></span><br><span class="line"><span class="attr">  replicas:</span> <span class="number">1</span></span><br><span class="line"><span class="comment"># resources:</span></span><br><span class="line"><span class="comment">#  requests:</span></span><br><span class="line"><span class="comment">#    memory: 256Mi</span></span><br><span class="line"><span class="comment">#    cpu: 100m</span></span><br><span class="line"><span class="attr">  nodeSelector:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"><span class="attr">  tolerations:</span> <span class="string">[]</span></span><br><span class="line"><span class="attr">  affinity:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"><span class="attr">  podAnnotations:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">adminserver:</span></span><br><span class="line"><span class="attr">  image:</span></span><br><span class="line"><span class="attr">    repository:</span> <span class="string">goharbor/harbor-adminserver</span></span><br><span class="line"><span class="attr">    tag:</span> <span class="string">v1.7.0</span></span><br><span class="line"><span class="attr">  replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="comment"># resources:</span></span><br><span class="line">  <span class="comment">#  requests:</span></span><br><span class="line">  <span class="comment">#    memory: 256Mi</span></span><br><span class="line">  <span class="comment">#    cpu: 100m</span></span><br><span class="line"><span class="attr">  nodeSelector:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"><span class="attr">  tolerations:</span> <span class="string">[]</span></span><br><span class="line"><span class="attr">  affinity:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"><span class="attr">  podAnnotations:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobservice:</span></span><br><span class="line"><span class="attr">  image:</span></span><br><span class="line"><span class="attr">    repository:</span> <span class="string">goharbor/harbor-jobservice</span></span><br><span class="line"><span class="attr">    tag:</span> <span class="string">v1.7.0</span></span><br><span class="line"><span class="attr">  replicas:</span> <span class="number">1</span></span><br><span class="line"><span class="attr">  maxJobWorkers:</span> <span class="number">10</span></span><br><span class="line">  <span class="comment"># jobs 的日志收集器："file", "database" or "stdout"</span></span><br><span class="line"><span class="attr">  jobLogger:</span> <span class="string">file</span></span><br><span class="line"><span class="comment"># resources:</span></span><br><span class="line"><span class="comment">#   requests:</span></span><br><span class="line"><span class="comment">#     memory: 256Mi</span></span><br><span class="line"><span class="comment">#     cpu: 100m</span></span><br><span class="line"><span class="attr">  nodeSelector:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"><span class="attr">  tolerations:</span> <span class="string">[]</span></span><br><span class="line"><span class="attr">  affinity:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"><span class="attr">  podAnnotations:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">registry:</span></span><br><span class="line"><span class="attr">  registry:</span></span><br><span class="line"><span class="attr">    image:</span></span><br><span class="line"><span class="attr">      repository:</span> <span class="string">goharbor/registry-photon</span></span><br><span class="line"><span class="attr">      tag:</span> <span class="string">v2.6.2-v1.7.0</span></span><br><span class="line"><span class="attr">  controller:</span></span><br><span class="line"><span class="attr">    image:</span></span><br><span class="line"><span class="attr">      repository:</span> <span class="string">goharbor/harbor-registryctl</span></span><br><span class="line"><span class="attr">      tag:</span> <span class="string">v1.7.0</span></span><br><span class="line"><span class="attr">  replicas:</span> <span class="number">1</span></span><br><span class="line"><span class="attr">  nodeSelector:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"><span class="attr">  tolerations:</span> <span class="string">[]</span></span><br><span class="line"><span class="attr">  affinity:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"><span class="attr">  podAnnotations:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">chartmuseum:</span></span><br><span class="line"><span class="attr">  enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  image:</span></span><br><span class="line"><span class="attr">    repository:</span> <span class="string">goharbor/chartmuseum-photon</span></span><br><span class="line"><span class="attr">    tag:</span> <span class="string">v0.7.1-v1.7.0</span></span><br><span class="line"><span class="attr">  replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="comment"># resources:</span></span><br><span class="line">  <span class="comment">#  requests:</span></span><br><span class="line">  <span class="comment">#    memory: 256Mi</span></span><br><span class="line">  <span class="comment">#    cpu: 100m</span></span><br><span class="line"><span class="attr">  nodeSelector:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"><span class="attr">  tolerations:</span> <span class="string">[]</span></span><br><span class="line"><span class="attr">  affinity:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"><span class="attr">  podAnnotations:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">clair:</span></span><br><span class="line"><span class="attr">  enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  image:</span></span><br><span class="line"><span class="attr">    repository:</span> <span class="string">goharbor/clair-photon</span></span><br><span class="line"><span class="attr">    tag:</span> <span class="string">v2.0.7-v1.7.0</span></span><br><span class="line"><span class="attr">  replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="comment"># 用于从 Internet 更新漏洞数据库的http(s)代理</span></span><br><span class="line"><span class="attr">  httpProxy:</span></span><br><span class="line"><span class="attr">  httpsProxy:</span></span><br><span class="line">  <span class="comment"># clair 更新程序的间隔，单位为小时，设置为0来禁用</span></span><br><span class="line"><span class="attr">  updatersInterval:</span> <span class="number">12</span></span><br><span class="line">  <span class="comment"># resources:</span></span><br><span class="line">  <span class="comment">#  requests:</span></span><br><span class="line">  <span class="comment">#    memory: 256Mi</span></span><br><span class="line">  <span class="comment">#    cpu: 100m</span></span><br><span class="line"><span class="attr">  nodeSelector:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"><span class="attr">  tolerations:</span> <span class="string">[]</span></span><br><span class="line"><span class="attr">  affinity:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"><span class="attr">  podAnnotations:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">notary:</span></span><br><span class="line"><span class="attr">  enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  server:</span></span><br><span class="line"><span class="attr">    image:</span></span><br><span class="line"><span class="attr">      repository:</span> <span class="string">goharbor/notary-server-photon</span></span><br><span class="line"><span class="attr">      tag:</span> <span class="string">v0.6.1-v1.7.0</span></span><br><span class="line"><span class="attr">    replicas:</span> <span class="number">1</span></span><br><span class="line">    <span class="comment"># resources:</span></span><br><span class="line">    <span class="comment">#  requests:</span></span><br><span class="line">    <span class="comment">#    memory: 256Mi</span></span><br><span class="line">    <span class="comment">#    cpu: 100m</span></span><br><span class="line"><span class="attr">  signer:</span></span><br><span class="line"><span class="attr">    image:</span></span><br><span class="line"><span class="attr">      repository:</span> <span class="string">goharbor/notary-signer-photon</span></span><br><span class="line"><span class="attr">      tag:</span> <span class="string">v0.6.1-v1.7.0</span></span><br><span class="line"><span class="attr">    replicas:</span> <span class="number">1</span></span><br><span class="line">    <span class="comment"># resources:</span></span><br><span class="line">    <span class="comment">#  requests:</span></span><br><span class="line">    <span class="comment">#    memory: 256Mi</span></span><br><span class="line">    <span class="comment">#    cpu: 100m</span></span><br><span class="line"><span class="attr">  nodeSelector:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"><span class="attr">  tolerations:</span> <span class="string">[]</span></span><br><span class="line"><span class="attr">  affinity:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"><span class="attr">  podAnnotations:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">database:</span></span><br><span class="line">  <span class="comment"># 如果使用外部的数据库，则设置 type=external，然后填写 external 区域的一些连接信息</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">internal</span></span><br><span class="line"><span class="attr">  internal:</span></span><br><span class="line"><span class="attr">    image:</span></span><br><span class="line"><span class="attr">      repository:</span> <span class="string">goharbor/harbor-db</span></span><br><span class="line"><span class="attr">      tag:</span> <span class="string">v1.7.0</span></span><br><span class="line">    <span class="comment"># 内部的数据库的初始化超级用户的密码</span></span><br><span class="line"><span class="attr">    password:</span> <span class="string">"changeit"</span></span><br><span class="line">    <span class="comment"># resources:</span></span><br><span class="line">    <span class="comment">#  requests:</span></span><br><span class="line">    <span class="comment">#    memory: 256Mi</span></span><br><span class="line">    <span class="comment">#    cpu: 100m</span></span><br><span class="line"><span class="attr">    nodeSelector:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"><span class="attr">    tolerations:</span> <span class="string">[]</span></span><br><span class="line"><span class="attr">    affinity:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"><span class="attr">  external:</span></span><br><span class="line"><span class="attr">    host:</span> <span class="string">"192.168.0.1"</span></span><br><span class="line"><span class="attr">    port:</span> <span class="string">"5432"</span></span><br><span class="line"><span class="attr">    username:</span> <span class="string">"user"</span></span><br><span class="line"><span class="attr">    password:</span> <span class="string">"password"</span></span><br><span class="line"><span class="attr">    coreDatabase:</span> <span class="string">"registry"</span></span><br><span class="line"><span class="attr">    clairDatabase:</span> <span class="string">"clair"</span></span><br><span class="line"><span class="attr">    notaryServerDatabase:</span> <span class="string">"notary_server"</span></span><br><span class="line"><span class="attr">    notarySignerDatabase:</span> <span class="string">"notary_signer"</span></span><br><span class="line"><span class="attr">    sslmode:</span> <span class="string">"disable"</span></span><br><span class="line"><span class="attr">  podAnnotations:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">redis:</span></span><br><span class="line">  <span class="comment"># 如果使用外部的 Redis 服务，设置 type=external，然后补充 external 部分的连接信息。</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">internal</span></span><br><span class="line"><span class="attr">  internal:</span></span><br><span class="line"><span class="attr">    image:</span></span><br><span class="line"><span class="attr">      repository:</span> <span class="string">goharbor/redis-photon</span></span><br><span class="line"><span class="attr">      tag:</span> <span class="string">v1.7.0</span></span><br><span class="line">    <span class="comment"># resources:</span></span><br><span class="line">    <span class="comment">#  requests:</span></span><br><span class="line">    <span class="comment">#    memory: 256Mi</span></span><br><span class="line">    <span class="comment">#    cpu: 100m</span></span><br><span class="line"><span class="attr">    nodeSelector:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"><span class="attr">    tolerations:</span> <span class="string">[]</span></span><br><span class="line"><span class="attr">    affinity:</span> <span class="string">&#123;&#125;</span></span><br><span class="line"><span class="attr">  external:</span></span><br><span class="line"><span class="attr">    host:</span> <span class="string">"192.168.0.2"</span></span><br><span class="line"><span class="attr">    port:</span> <span class="string">"6379"</span></span><br><span class="line">    <span class="comment"># coreDatabaseIndex 必须设置为0</span></span><br><span class="line"><span class="attr">    coreDatabaseIndex:</span> <span class="string">"0"</span></span><br><span class="line"><span class="attr">    jobserviceDatabaseIndex:</span> <span class="string">"1"</span></span><br><span class="line"><span class="attr">    registryDatabaseIndex:</span> <span class="string">"2"</span></span><br><span class="line"><span class="attr">    chartmuseumDatabaseIndex:</span> <span class="string">"3"</span></span><br><span class="line"><span class="attr">    password:</span> <span class="string">""</span></span><br><span class="line"><span class="attr">  podAnnotations:</span> <span class="string">&#123;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>有了上面的配置说明，则我们可以根据自己的需求来覆盖上面的值，比如我们这里新建一个 qikqiak-values.yaml 的文件，文件内容如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">expose:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">ingress</span></span><br><span class="line"><span class="attr">  tls:</span></span><br><span class="line"><span class="attr">    enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  ingress:</span></span><br><span class="line"><span class="attr">    hosts:</span></span><br><span class="line"><span class="attr">      core:</span> <span class="string">registry.qikqiak.com</span></span><br><span class="line"><span class="attr">      notary:</span> <span class="string">notary.qikqiak.com</span></span><br><span class="line"><span class="attr">    annotations:</span></span><br><span class="line">      <span class="string">kubernetes.io/ingress.class:</span> <span class="string">"traefik"</span></span><br><span class="line">      <span class="string">ingress.kubernetes.io/ssl-redirect:</span> <span class="string">"true"</span></span><br><span class="line">      <span class="string">ingress.kubernetes.io/proxy-body-size:</span> <span class="string">"0"</span></span><br><span class="line"></span><br><span class="line"><span class="attr">externalURL:</span> <span class="attr">https://registry.qikqiak.com</span></span><br><span class="line"></span><br><span class="line"><span class="attr">persistence:</span></span><br><span class="line"><span class="attr">  enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  resourcePolicy:</span> <span class="string">"keep"</span></span><br><span class="line"><span class="attr">  persistentVolumeClaim:</span></span><br><span class="line"><span class="attr">    registry:</span></span><br><span class="line"><span class="attr">      storageClass:</span> <span class="string">"harbor-data"</span></span><br><span class="line"><span class="attr">    chartmuseum:</span></span><br><span class="line"><span class="attr">      storageClass:</span> <span class="string">"harbor-data"</span></span><br><span class="line"><span class="attr">    jobservice:</span></span><br><span class="line"><span class="attr">      storageClass:</span> <span class="string">"harbor-data"</span></span><br><span class="line"><span class="attr">    database:</span></span><br><span class="line"><span class="attr">      storageClass:</span> <span class="string">"harbor-data"</span></span><br><span class="line"><span class="attr">    redis:</span></span><br><span class="line"><span class="attr">      storageClass:</span> <span class="string">"harbor-data"</span></span><br></pre></td></tr></table></figure>
+
+<p>其中需要我们定制的部分很少，我们将域名替换成我们自己的，使用默认的 Ingress 方式暴露服务，其他需要我们手动配置的部分就是数据持久化的部分，我们需要提前为上面的这些服务创建好可用的 PVC 或者 StorageClass 对象，比如我们这里使用一个名为 harbor-data 的 StorageClass 资源对象，当然也可以根据我们实际的需求修改 accessMode 或者存储容量：(harbor-data-sc.yaml)</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">storage.k8s.io/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">StorageClass</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">harbor-data</span></span><br><span class="line"><span class="attr">provisioner:</span> <span class="string">fuseim.pri/ifs</span></span><br></pre></td></tr></table></figure>
+
+<p>先新建上面的 StorageClass 资源对象：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">$</span> <span class="string">kubectl</span> <span class="string">create</span> <span class="bullet">-f</span> <span class="string">harbor-data-sc.yaml</span></span><br><span class="line"><span class="string">storageclass.storage.k8s.io</span> <span class="string">"harbor-data"</span> <span class="string">created</span></span><br></pre></td></tr></table></figure>
+
+<p>创建完成后，使用上面自定义的 values 文件安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">$ helm install --name harbor -f qikqiak-values.yaml . --namespace kube-ops</span><br><span class="line">NAME:   harbor</span><br><span class="line">LAST DEPLOYED: Fri Feb 22 22:39:22 2019</span><br><span class="line">NAMESPACE: kube-ops</span><br><span class="line">STATUS: DEPLOYED</span><br><span class="line"></span><br><span class="line">RESOURCES:</span><br><span class="line">==&gt; v1/StatefulSet</span><br><span class="line">NAME                    DESIRED  CURRENT  AGE</span><br><span class="line">harbor-harbor-database  1        1        0s</span><br><span class="line">harbor-harbor-redis     1        1        0s</span><br><span class="line"></span><br><span class="line">==&gt; v1beta1/Ingress</span><br><span class="line">NAME                   HOSTS                                    ADDRESS  PORTS  AGE</span><br><span class="line">harbor-harbor-ingress  registry.qikqiak.com,notary.qikqiak.com  80, 443  0s</span><br><span class="line"></span><br><span class="line">==&gt; v1/Pod(related)</span><br><span class="line">NAME                                          READY  STATUS             RESTARTS  AGE</span><br><span class="line">harbor-harbor-adminserver-58c855568c-jnpvq    0/1    ContainerCreating  0         0s</span><br><span class="line">harbor-harbor-chartmuseum-58d6c9b898-4csmd    0/1    Pending            0         0s</span><br><span class="line">harbor-harbor-clair-5c7689585-hd2br           0/1    ContainerCreating  0         0s</span><br><span class="line">harbor-harbor-core-6f56879469-rbthd           0/1    ContainerCreating  0         0s</span><br><span class="line">harbor-harbor-jobservice-74d7795cdb-bhzdm     0/1    ContainerCreating  0         0s</span><br><span class="line">harbor-harbor-notary-server-69cdbdfb56-ggc49  0/1    Pending            0         0s</span><br><span class="line">harbor-harbor-notary-signer-8499dc4db7-f78cd  0/1    Pending            0         0s</span><br><span class="line">harbor-harbor-portal-55c45c558d-dmj48         0/1    Pending            0         0s</span><br><span class="line">harbor-harbor-registry-5569fcbf78-5grds       0/2    Pending            0         0s</span><br><span class="line">harbor-harbor-database-0                      0/1    Pending            0         0s</span><br><span class="line">harbor-harbor-redis-0                         0/1    Pending            0         0s</span><br><span class="line"></span><br><span class="line">==&gt; v1/Secret</span><br><span class="line">NAME                       TYPE               DATA  AGE</span><br><span class="line">harbor-harbor-adminserver  Opaque             4     1s</span><br><span class="line">harbor-harbor-chartmuseum  Opaque             1     1s</span><br><span class="line">harbor-harbor-core         Opaque             4     1s</span><br><span class="line">harbor-harbor-database     Opaque             1     1s</span><br><span class="line">harbor-harbor-ingress      kubernetes.io/tls  3     1s</span><br><span class="line">harbor-harbor-jobservice   Opaque             1     1s</span><br><span class="line">harbor-harbor-registry     Opaque             1     1s</span><br><span class="line"></span><br><span class="line">==&gt; v1/ConfigMap</span><br><span class="line">NAME                         DATA  AGE</span><br><span class="line">harbor-harbor-adminserver    39    1s</span><br><span class="line">harbor-harbor-chartmuseum    24    1s</span><br><span class="line">harbor-harbor-clair          1     1s</span><br><span class="line">harbor-harbor-core           1     1s</span><br><span class="line">harbor-harbor-jobservice     1     1s</span><br><span class="line">harbor-harbor-notary-server  5     1s</span><br><span class="line">harbor-harbor-registry       2     1s</span><br><span class="line"></span><br><span class="line">==&gt; v1/PersistentVolumeClaim</span><br><span class="line">NAME                       STATUS   VOLUME                                    CAPACITY  ACCESS MODES  STORAGECLASS  AGE</span><br><span class="line">harbor-harbor-chartmuseum  Pending  harbor-data                               1s</span><br><span class="line">harbor-harbor-jobservice   Bound    pvc-a8a35d0e-36af-11e9-bcd8-525400db4df7  1Gi  RWO  harbor-data  1s</span><br><span class="line">harbor-harbor-registry     Bound    pvc-a8a466e9-36af-11e9-bcd8-525400db4df7  5Gi  RWO  harbor-data  1s</span><br><span class="line"></span><br><span class="line">==&gt; v1/Service</span><br><span class="line">NAME                         TYPE       CLUSTER-IP      EXTERNAL-IP  PORT(S)            AGE</span><br><span class="line">harbor-harbor-adminserver    ClusterIP  10.108.3.242    &lt;none&gt;       80/TCP             1s</span><br><span class="line">harbor-harbor-chartmuseum    ClusterIP  10.101.49.103   &lt;none&gt;       80/TCP             1s</span><br><span class="line">harbor-harbor-clair          ClusterIP  10.110.173.153  &lt;none&gt;       6060/TCP           1s</span><br><span class="line">harbor-harbor-core           ClusterIP  10.105.178.198  &lt;none&gt;       80/TCP             1s</span><br><span class="line">harbor-harbor-database       ClusterIP  10.102.101.155  &lt;none&gt;       5432/TCP           0s</span><br><span class="line">harbor-harbor-jobservice     ClusterIP  10.100.127.32   &lt;none&gt;       80/TCP             0s</span><br><span class="line">harbor-harbor-notary-server  ClusterIP  10.105.25.64    &lt;none&gt;       4443/TCP           0s</span><br><span class="line">harbor-harbor-notary-signer  ClusterIP  10.108.92.82    &lt;none&gt;       7899/TCP           0s</span><br><span class="line">harbor-harbor-portal         ClusterIP  10.103.111.161  &lt;none&gt;       80/TCP             0s</span><br><span class="line">harbor-harbor-redis          ClusterIP  10.107.205.3    &lt;none&gt;       6379/TCP           0s</span><br><span class="line">harbor-harbor-registry       ClusterIP  10.100.87.29    &lt;none&gt;       5000/TCP,8080/TCP  0s</span><br><span class="line"></span><br><span class="line">==&gt; v1/Deployment</span><br><span class="line">NAME                         DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE</span><br><span class="line">harbor-harbor-adminserver    1        1        1           0          0s</span><br><span class="line">harbor-harbor-chartmuseum    1        1        1           0          0s</span><br><span class="line">harbor-harbor-clair          1        1        1           0          0s</span><br><span class="line">harbor-harbor-core           1        1        1           0          0s</span><br><span class="line">harbor-harbor-jobservice     1        1        1           0          0s</span><br><span class="line">harbor-harbor-notary-server  1        1        1           0          0s</span><br><span class="line">harbor-harbor-notary-signer  1        1        1           0          0s</span><br><span class="line">harbor-harbor-portal         1        1        1           0          0s</span><br><span class="line">harbor-harbor-registry       1        0        0           0          0s</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NOTES:</span><br><span class="line">Please <span class="built_in">wait</span> <span class="keyword">for</span> several minutes <span class="keyword">for</span> Harbor deployment to complete.</span><br><span class="line">Then you should be able to visit the Harbor portal at https://registry.qikqiak.com.</span><br><span class="line">For more details, please visit https://github.com/goharbor/harbor.</span><br></pre></td></tr></table></figure>
+
+<p>上面是我们通过 Helm 安装所有涉及到的一些资源对象，稍微等一会儿，就可以安装成功了，查看对应的 Pod 状态：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get pods -n kube-ops</span><br><span class="line">NAME                                           READY     STATUS    RESTARTS   AGE</span><br><span class="line">harbor-harbor-adminserver-58c855568c-7dqqb     1/1       Running   0          37m</span><br><span class="line">harbor-harbor-chartmuseum-58d6c9b898-4csmd     1/1       Running   0          49m</span><br><span class="line">harbor-harbor-clair-5c7689585-hd2br            1/1       Running   0          49m</span><br><span class="line">harbor-harbor-core-6f56879469-rbthd            1/1       Running   8          49m</span><br><span class="line">harbor-harbor-database-0                       1/1       Running   0          49m</span><br><span class="line">harbor-harbor-jobservice-74d7795cdb-bhzdm      1/1       Running   7          49m</span><br><span class="line">harbor-harbor-notary-server-69cdbdfb56-vklbt   1/1       Running   0          20m</span><br><span class="line">harbor-harbor-notary-signer-8499dc4db7-f78cd   1/1       Running   0          49m</span><br><span class="line">harbor-harbor-portal-55c45c558d-dmj48          1/1       Running   0          49m</span><br><span class="line">harbor-harbor-redis-0                          1/1       Running   0          49m</span><br><span class="line">harbor-harbor-registry-5569fcbf78-5grds        2/2       Running   0          49m</span><br></pre></td></tr></table></figure>
+
+<p>现在都是<code>Running</code>状态了，都成功运行起来了，查看下对应的 Ingress 对象:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get ingress -n kube-ops</span><br><span class="line">NAME                    HOSTS                                     ADDRESS   PORTS     AGE</span><br><span class="line">harbor-harbor-ingress   registry.qikqiak.com,notary.qikqiak.com             80, 443   50m</span><br></pre></td></tr></table></figure>
+
+<p>如果你有自己的真正的域名，则将上面的两个域名解析到你的任意一个 Ingress Controller 的 Pod 所在的节点即可，我们这里为了演示方便，还是自己在本地的<code>/etc/hosts</code>里面添加上<code>registry.qikqiak.com</code>和<code>notary.qikqiak.com</code>的映射。</p>
+<p>在第一次安装的时候比较顺畅，后面安装总是不成功，查看数据库的 Pod 日志出现<strong>database “registry” does not exist（）</strong>的错误信息，如果 registry 数据库没有自动创建，我们可以进入数据库 Pod 中手动创建：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 进入数据库 Pod</span></span><br><span class="line">$ kubectl <span class="built_in">exec</span> -it harbor-harbor-database-0 -n kube-ops /bin/bash</span><br><span class="line"><span class="comment"># 2. 连接数据库</span></span><br><span class="line">root [ / ]<span class="comment"># psql --username postgres</span></span><br><span class="line">psql (9.6.10)</span><br><span class="line">Type <span class="string">"help"</span> <span class="keyword">for</span> <span class="built_in">help</span>.</span><br><span class="line"><span class="comment"># 3. 创建 registry 数据库</span></span><br><span class="line">postgres=<span class="comment"># CREATE DATABASE registry ENCODING 'UTF8';</span></span><br><span class="line">CREATE DATABASE</span><br><span class="line">postgres=<span class="comment"># \c registry;</span></span><br><span class="line">You are now connected to database <span class="string">"registry"</span> as user <span class="string">"postgres"</span>.</span><br><span class="line">registry=<span class="comment"># CREATE TABLE schema_migrations(version bigint not null primary key, dirty boolean not null);</span></span><br><span class="line">CREATE TABLE</span><br><span class="line">registry-<span class="comment"># \quit</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Harbor-Portal"><a href="#Harbor-Portal" class="headerlink" title="Harbor Portal"></a>Harbor Portal</h3><p>添加完成后，在浏览器中输入<code>registry.qikqiak.com</code>就可以打开熟悉的 Harbor 的 Portal 界面了，当然我们配置的 Ingress 中会强制跳转到 https，所以如果你的浏览器有什么安全限制的话，需要信任我们这里 Ingress 对应的证书，证书文件可以通过查看 Secret 资源对象获取：</p>
+<p>然后输入用户名：admin，密码：Harbor12345（当然我们也可以通过 Helm 安装的时候自己覆盖 harborAdminPassword）即可登录进入 Portal 首页：</p>
+<p>我们可以看到有很多功能，默认情况下会有一个名叫<code>library</code>的项目，改项目默认是公开访问权限的，进入项目可以看到里面还有 Helm Chart 包的管理，可以手动在这里上传，也可以对改项目里面的镜像进行一些配置，比如是否开启自动扫描镜像功能：</p>
+<h3 id="docker-cli"><a href="#docker-cli" class="headerlink" title="docker cli"></a>docker cli</h3><p>然后我们来测试下使用 docker cli 来进行 pull/push 镜像，由于上面我们安装的时候通过 Ingress 来暴露的 Harbor 的服务，而且强制使用了 https，所以如果我们要在终端中使用我们这里的私有仓库的话，就需要配置上相应的证书：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ docker login registry.qikqiak.com</span><br><span class="line">Warning: failed to get default registry endpoint from daemon (Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?). Using system default: https://index.docker.io/v1/</span><br><span class="line">Username: admin</span><br><span class="line">Password:</span><br><span class="line">INFO[0007] Error logging <span class="keyword">in</span> to v2 endpoint, trying next endpoint: Get https://registry.qikqiak.com/v2/: x509: certificate has expired or is not yet valid</span><br><span class="line">INFO[0007] Error logging <span class="keyword">in</span> to v1 endpoint, trying next endpoint: Get https://registry.qikqiak.com/v1/users/: x509: certificate has expired or is not yet valid</span><br><span class="line">Get https://registry.qikqiak.com/v1/users/: x509: certificate has expired or is not yet valid</span><br></pre></td></tr></table></figure>
+
+<p>这里如果我们使用的浏览器认证的证书，例如购买的HTTPS证书，或者是使用免费的HTTPS证书，就不会出现这种认证的问题。</p>
+<p>这是因为我们没有提供证书文件，我们将使用到的<code>ca.crt</code>文件复制到<code>/etc/docker/certs.d/registry.qikqiak.com</code>目录下面，如果该目录不存在，则创建它。ca.crt 这个证书文件我们可以通过 Ingress 中使用的 Secret 资源对象来提供：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get secret harbor-harbor-ingress -n kube-ops -o yaml</span><br><span class="line">apiVersion: v1</span><br><span class="line">data:</span><br><span class="line">  ca.crt: &lt;ca.crt&gt;</span><br><span class="line">  tls.crt: &lt;tls.crt&gt;</span><br><span class="line">  tls.key: &lt;tls.key&gt;</span><br><span class="line">kind: Secret</span><br><span class="line">metadata:</span><br><span class="line">  creationTimestamp: 2019-02-22T14:39:28Z</span><br><span class="line">  labels:</span><br><span class="line">    app: harbor</span><br><span class="line">    chart: harbor</span><br><span class="line">    heritage: Tiller</span><br><span class="line">    release: harbor</span><br><span class="line">  name: harbor-harbor-ingress</span><br><span class="line">  namespace: kube-ops</span><br><span class="line">  resourceVersion: <span class="string">"50400208"</span></span><br><span class="line">  selfLink: /api/v1/namespaces/kube-ops/secrets/harbor-harbor-ingress</span><br><span class="line">  uid: a899c57a-36af-11e9-bcd8-525400db4df7</span><br><span class="line"><span class="built_in">type</span>: kubernetes.io/tls</span><br></pre></td></tr></table></figure>
+
+<p>其中 data 区域中 ca.crt 对应的值就是我们需要证书，不过需要注意还需要做一个 base64 的解码，这样证书配置上以后就可以正常访问了。</p>
+<p>不过由于上面的方法较为繁琐，所以一般情况下面我们在使用 docker cli 的时候是在 docker 启动参数后面添加一个<code>--insecure-registry</code>参数来忽略证书的校验的，在 docker 启动配置文件<code>/usr/lib/systemd/system/docker.service</code>中修改<code>ExecStart</code>的启动参数：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ExecStart=/usr/bin/dockerd --insecure-registry registry.qikqiak.com</span><br></pre></td></tr></table></figure>
+
+<p>然后保存重启 docker，再使用 docker cli 就没有任何问题了.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker login registry.qikqiak.com</span><br><span class="line">Username: admin</span><br><span class="line">Password:</span><br><span class="line">Login Succeeded</span><br></pre></td></tr></table></figure>
+
+<p>比如我们本地现在有一个名为 busybox 的镜像，现在我们想要将该镜像推送到我们的私有仓库中去，应该怎样操作呢？首先我们需要给该镜像重新打一个 registry.qikqiak.com 的前缀，然后推送的时候就可以识别到推送到哪个镜像仓库：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker tag busybox registry.qikqiak.com/library/busybox</span><br><span class="line">$ docker push registry.qikqiak.com/library/busybox</span><br><span class="line">The push refers to repository [registry.qikqiak.com/library/busybox]</span><br><span class="line">adab5d09ba79: Pushed</span><br><span class="line">latest: digest: sha256:4415a904b1aca178c2450fd54928ab362825e863c0ad5452fd020e92f7a6a47e size: 527</span><br></pre></td></tr></table></figure>
+
+<p>镜像 push 成功，同样可以测试下 pull：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ docker rmi registry.qikqiak.com/library/busybox</span><br><span class="line">Untagged: registry.qikqiak.com/library/busybox:latest</span><br><span class="line">Untagged: registry.qikqiak.com/library/busybox@sha256:4415a904b1aca178c2450fd54928ab362825e863c0ad5452fd020e92f7a6a47e</span><br><span class="line"></span><br><span class="line">$ docker pull registry.qikqiak.com/library/busybox:latest</span><br><span class="line">latest: Pulling from library/busybox</span><br><span class="line">Digest: sha256:4415a904b1aca178c2450fd54928ab362825e863c0ad5452fd020e92f7a6a47e</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> registry.qikqiak.com/library/busybox:latest</span><br><span class="line"></span><br><span class="line">$ docker images |grep busybox</span><br><span class="line">busybox                                latest              d8233ab899d4        7 days ago          1.2MB</span><br><span class="line">registry.qikqiak.com/library/busybox   latest              d8233ab899d4        7 days ago          1.2MB</span><br></pre></td></tr></table></figure>
+
+<p>到这里证明上面我们的私有 docker 仓库搭建成功了，大家可以尝试去创建一个私有的项目，然后创建一个新的用户，使用这个用户来进行 pull/push 镜像，Harbor 还具有其他的一些功能，比如镜像复制，大家可以自行测试，感受下 Harbor 和官方自带的 registry 仓库的差别。</p>
+
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://ws1.sinaimg.cn/large/8141265fgy1g6whh0pm0vj206x0713yu.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://ws1.sinaimg.cn/large/8141265fgy1g6whhkajj7j206x071jrp.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -210,16 +299,24 @@
 
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/25/harbor-quick-install/">展开全文 >></a>
-        </p>
-      
 
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2019/11/20/images/1l-dyj/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -239,725 +336,14 @@
 
 
 
-
   
-    <article id="post-images/1l-dyj" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!doctype html>
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width initial-scale=1">
-<title>1L打印机安装文档</title><style type="text/css">html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:"Lucida Console",Consolas,"Courier",monospace; }
-html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
-body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; tab-size: 4; }
-iframe { margin: auto; }
-a.url { word-break: break-all; }
-a:active, a:hover { outline: 0px; }
-.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
-#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; overflow-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 40px; }
-#write.first-line-indent p { text-indent: 2em; }
-#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
-#write.first-line-indent li { margin-left: 2em; }
-.for-image #write { padding-left: 8px; padding-right: 8px; }
-body.typora-export { padding-left: 30px; padding-right: 30px; }
-.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
-@media screen and (max-width: 500px) {
-  body.typora-export { padding-left: 0px; padding-right: 0px; }
-  #write { padding-left: 20px; padding-right: 20px; }
-  .CodeMirror-sizer { margin-left: 0px !important; }
-  .CodeMirror-gutters { display: none !important; }
-}
-#write li > figure:last-child { margin-bottom: 0.5rem; }
-#write ol, #write ul { position: relative; }
-img { max-width: 100%; vertical-align: middle; }
-button, input, select, textarea { color: inherit; font: inherit; }
-input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
-*, ::after, ::before { box-sizing: border-box; }
-#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
-#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
-p { line-height: inherit; }
-h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 2; }
-p { orphans: 4; }
-h1 { font-size: 2rem; }
-h2 { font-size: 1.8rem; }
-h3 { font-size: 1.6rem; }
-h4 { font-size: 1.4rem; }
-h5 { font-size: 1.2rem; }
-h6 { font-size: 1rem; }
-.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
-.hidden { display: none; }
-.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
-a { cursor: pointer; }
-sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-radius: 4px; cursor: pointer; }
-sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
-#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
-figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
-figure > table { margin: 0px !important; }
-tr { break-inside: avoid; break-after: auto; }
-thead { display: table-header-group; }
-table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
-table.md-table td { min-width: 32px; }
-.CodeMirror-gutters { border-right: 0px; background-color: inherit; }
-.CodeMirror-linenumber { user-select: none; }
-.CodeMirror { text-align: left; }
-.CodeMirror-placeholder { opacity: 0.3; }
-.CodeMirror pre { padding: 0px 4px; }
-.CodeMirror-lines { padding: 0px; }
-div.hr:focus { cursor: none; }
-#write pre { white-space: pre-wrap; }
-#write.fences-no-line-wrapping pre { white-space: pre; }
-#write pre.ty-contain-cm { white-space: normal; }
-.CodeMirror-gutters { margin-right: 4px; }
-.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: inherit; position: relative !important; }
-.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
-#write .md-fences.mock-cm { white-space: pre-wrap; }
-.md-fences.md-fences-with-lineno { padding-left: 0px; }
-#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
-.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
-.CodeMirror-line, twitterwidget { break-inside: avoid; }
-.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
-.footnotes + .footnotes { margin-top: 0px; }
-.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: 0px 0px; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; }
-li div { padding-top: 0px; }
-blockquote { margin: 1rem 0px; }
-li .mathjax-block, li p { margin: 0.5rem 0px; }
-li { margin: 0px; position: relative; }
-blockquote > :last-child { margin-bottom: 0px; }
-blockquote > :first-child, li > :first-child { margin-top: 0px; }
-.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
-#write .footnote-line { white-space: pre-wrap; }
-@media print {
-  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; }
-  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
-  .typora-export * { -webkit-print-color-adjust: exact; }
-  html.blink-to-pdf { font-size: 13px; }
-  .typora-export #write { padding-left: 32px; padding-right: 32px; padding-bottom: 0px; break-after: avoid; }
-  .typora-export #write::after { height: 0px; }
-}
-.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
-a img, img a { cursor: pointer; }
-pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background: rgb(204, 204, 204); display: block; overflow-x: hidden; }
-p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
-p > .md-image:only-child { display: inline-block; width: 100%; }
-#write .MathJax_Display { margin: 0.8em 0px 0px; }
-.md-math-block { width: 100%; }
-.md-math-block:not(:empty)::after { display: none; }
-[contenteditable="true"]:active, [contenteditable="true"]:focus { outline: 0px; box-shadow: none; }
-.md-task-list-item { position: relative; list-style-type: none; }
-.task-list-item.md-task-list-item { padding-left: 0px; }
-.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
-.math { font-size: 1rem; }
-.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-radius: 10px; }
-.md-toc-content { position: relative; margin-left: 0px; }
-.md-toc-content::after, .md-toc::after { display: none; }
-.md-toc-item { display: block; color: rgb(65, 131, 196); }
-.md-toc-item a { text-decoration: none; }
-.md-toc-inner:hover { text-decoration: underline; }
-.md-toc-inner { display: inline-block; cursor: pointer; }
-.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
-.md-toc-h2 .md-toc-inner { margin-left: 2em; }
-.md-toc-h3 .md-toc-inner { margin-left: 4em; }
-.md-toc-h4 .md-toc-inner { margin-left: 6em; }
-.md-toc-h5 .md-toc-inner { margin-left: 8em; }
-.md-toc-h6 .md-toc-inner { margin-left: 10em; }
-@media screen and (max-width: 48em) {
-  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
-  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
-  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
-  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
-}
-a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
-.footnote-line a:not(.reversefootnote) { color: inherit; }
-.md-attr { display: none; }
-.md-fn-count::after { content: "."; }
-code, pre, samp, tt { font-family: var(--monospace); }
-kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; }
-.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
-code { text-align: left; vertical-align: initial; }
-a.md-print-anchor { white-space: pre !important; border-width: initial !important; border-style: none !important; border-color: initial !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; background: 0px 0px !important; text-decoration: initial !important; text-shadow: initial !important; }
-.md-inline-math .MathJax_SVG .noError { display: none !important; }
-.html-for-mac .inline-math-svg .MathJax_SVG { vertical-align: 0.2px; }
-.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
-.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
-.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
-.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
-.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; overflow-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
-.MathJax_SVG * { transition: none 0s ease 0s; }
-.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
-.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
-.md-diagram-panel > svg { max-width: 100%; }
-[lang="mermaid"] svg, [lang="flow"] svg { max-width: 100%; height: auto; }
-[lang="mermaid"] .node text { font-size: 1rem; }
-table tr th { border-bottom: 0px; }
-video { max-width: 100%; display: block; margin: 0px auto; }
-iframe { max-width: 100%; width: 100%; border: none; }
-.highlight td, .highlight tr { border: 0px; }
-
-
-:root { --side-bar-bg-color: #fafafa; --control-text-color: #777; }
-html { font-size: 16px; }
-body { font-family: "Open Sans", "Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; color: rgb(51, 51, 51); line-height: 1.6; }
-#write { max-width: 860px; margin: 0px auto; padding: 30px 30px 100px; }
-#write > ul:first-child, #write > ol:first-child { margin-top: 30px; }
-a { color: rgb(65, 131, 196); }
-h1, h2, h3, h4, h5, h6 { position: relative; margin-top: 1rem; margin-bottom: 1rem; font-weight: bold; line-height: 1.4; cursor: text; }
-h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor { text-decoration: none; }
-h1 tt, h1 code { font-size: inherit; }
-h2 tt, h2 code { font-size: inherit; }
-h3 tt, h3 code { font-size: inherit; }
-h4 tt, h4 code { font-size: inherit; }
-h5 tt, h5 code { font-size: inherit; }
-h6 tt, h6 code { font-size: inherit; }
-h1 { padding-bottom: 0.3em; font-size: 2.25em; line-height: 1.2; border-bottom: 1px solid rgb(238, 238, 238); }
-h2 { padding-bottom: 0.3em; font-size: 1.75em; line-height: 1.225; border-bottom: 1px solid rgb(238, 238, 238); }
-h3 { font-size: 1.5em; line-height: 1.43; }
-h4 { font-size: 1.25em; }
-h5 { font-size: 1em; }
-h6 { font-size: 1em; color: rgb(119, 119, 119); }
-p, blockquote, ul, ol, dl, table { margin: 0.8em 0px; }
-li > ol, li > ul { margin: 0px; }
-hr { height: 2px; padding: 0px; margin: 16px 0px; background-color: rgb(231, 231, 231); border: 0px none; overflow: hidden; box-sizing: content-box; }
-li p.first { display: inline-block; }
-ul, ol { padding-left: 30px; }
-ul:first-child, ol:first-child { margin-top: 0px; }
-ul:last-child, ol:last-child { margin-bottom: 0px; }
-blockquote { border-left: 4px solid rgb(223, 226, 229); padding: 0px 15px; color: rgb(119, 119, 119); }
-blockquote blockquote { padding-right: 0px; }
-table { padding: 0px; word-break: initial; }
-table tr { border-top: 1px solid rgb(223, 226, 229); margin: 0px; padding: 0px; }
-table tr:nth-child(2n), thead { background-color: rgb(248, 248, 248); }
-table tr th { font-weight: bold; border-width: 1px 1px 0px; border-top-style: solid; border-right-style: solid; border-left-style: solid; border-top-color: rgb(223, 226, 229); border-right-color: rgb(223, 226, 229); border-left-color: rgb(223, 226, 229); border-image: initial; border-bottom-style: initial; border-bottom-color: initial; margin: 0px; padding: 6px 13px; }
-table tr td { border: 1px solid rgb(223, 226, 229); margin: 0px; padding: 6px 13px; }
-table tr th:first-child, table tr td:first-child { margin-top: 0px; }
-table tr th:last-child, table tr td:last-child { margin-bottom: 0px; }
-.CodeMirror-lines { padding-left: 4px; }
-.code-tooltip { box-shadow: rgba(0, 28, 36, 0.3) 0px 1px 1px 0px; border-top: 1px solid rgb(238, 242, 242); }
-.md-fences, code, tt { border: 1px solid rgb(231, 234, 237); background-color: rgb(248, 248, 248); border-radius: 3px; padding: 2px 4px 0px; font-size: 0.9em; }
-code { background-color: rgb(243, 244, 244); padding: 0px 2px; }
-.md-fences { margin-bottom: 15px; margin-top: 15px; padding-top: 8px; padding-bottom: 6px; }
-.md-task-list-item > input { margin-left: -1.3em; }
-@media print {
-  html { font-size: 13px; }
-  table, pre { break-inside: avoid; }
-  pre { overflow-wrap: break-word; }
-}
-.md-fences { background-color: rgb(248, 248, 248); }
-#write pre.md-meta-block { padding: 1rem; font-size: 85%; line-height: 1.45; background-color: rgb(247, 247, 247); border: 0px; border-radius: 3px; color: rgb(119, 119, 119); margin-top: 0px !important; }
-.mathjax-block > .code-tooltip { bottom: 0.375rem; }
-.md-mathjax-midline { background: rgb(250, 250, 250); }
-#write > h3.md-focus::before { left: -1.5625rem; top: 0.375rem; }
-#write > h4.md-focus::before { left: -1.5625rem; top: 0.285714rem; }
-#write > h5.md-focus::before { left: -1.5625rem; top: 0.285714rem; }
-#write > h6.md-focus::before { left: -1.5625rem; top: 0.285714rem; }
-.md-image > .md-meta { border-radius: 3px; padding: 2px 0px 0px 4px; font-size: 0.9em; color: inherit; }
-.md-tag { color: rgb(167, 167, 167); opacity: 1; }
-.md-toc { margin-top: 20px; padding-bottom: 20px; }
-.sidebar-tabs { border-bottom: none; }
-#typora-quick-open { border: 1px solid rgb(221, 221, 221); background-color: rgb(248, 248, 248); }
-#typora-quick-open-item { background-color: rgb(250, 250, 250); border-color: rgb(254, 254, 254) rgb(229, 229, 229) rgb(229, 229, 229) rgb(238, 238, 238); border-style: solid; border-width: 1px; }
-.on-focus-mode blockquote { border-left-color: rgba(85, 85, 85, 0.12); }
-header, .context-menu, .megamenu-content, footer { font-family: "Segoe UI", Arial, sans-serif; }
-.file-node-content:hover .file-node-icon, .file-node-content:hover .file-node-open-state { visibility: visible; }
-.mac-seamless-mode #typora-sidebar { background-color: var(--side-bar-bg-color); }
-.md-lang { color: rgb(180, 101, 77); }
-.html-for-mac .context-menu { --item-hover-bg-color: #E6F0FE; }
-#md-notification .btn { border: 0px; }
-.dropdown-menu .divider { border-color: rgb(229, 229, 229); }
-.ty-preferences .window-content { background-color: rgb(250, 250, 250); }
-.ty-preferences .nav-group-item.active { color: white; background: rgb(153, 153, 153); }
-
- .typora-export li, .typora-export p, .typora-export,  .footnote-line {white-space: normal;} 
-</style>
-</head>
-<body class="typora-export os-windows">
-<div id="write" class="is-node"><h2><a name="此教程打印机安装文档安装时刻根据自己的需求选择具体位置的打印机" class="md-header-anchor"></a><span>此教程打印机安装文档，安装时刻根据自己的需求，选择具体位置的打印机</span></h2><h3><a name="windows-10-安装步骤" class="md-header-anchor"></a><span>Windows 10 安装步骤</span></h3><ol><li><p><span>鼠标右击左下角Windows 图标</span><img src="C:\Users\Administrator\Desktop\打印机-2.png" alt="打印机-2" referrerpolicy="no-referrer"><span>，点击运行，如下图所示：</span></p><p><img src="C:\Users\Administrator\Desktop\打印机-1.png" alt="打印机-1" referrerpolicy="no-referrer"></p></li></ol><ol start="2"><li><p><span>输入</span><code>\\172.16.18.229</code><span>, 然后点击“确定”；如下图所示：</span></p><p><img src="C:\Users\Administrator\Desktop\打印机-3.png" alt="打印机-3" referrerpolicy="no-referrer"></p><p>&nbsp;</p></li></ol><ol start="3"><li><p><span>此时会弹出输入用户名以及密码的窗口，用户名为：guest  密码为空，然后勾选记住我的凭据，点击确定；如下图所示：</span></p><p><img src="C:\Users\Administrator\Desktop\打印机-4.png" alt="打印机-4" referrerpolicy="no-referrer"></p></li></ol><ol start="4"><li><p><span>选择自己所需要的打印机，</span><code>TOSHIBA Universal XPS-1L</code><span> 为1楼人事部打印机；</span><code>TOSHIBA e-STUDIO2803AM-2L</code><span> 为二楼的打印机；如下图所示：</span></p><p><img src="C:\Users\Administrator\Desktop\打印机-8.png" alt="打印机-8" referrerpolicy="no-referrer"></p></li></ol><p>&nbsp;</p><p>&nbsp;</p><ol start="5"><li><p><span>选择自己所需要的打印机，例如2楼打印机，鼠标右击，然后选择连接，即可。</span></p><p>&nbsp;</p></li></ol><p><img src="C:\Users\Administrator\Desktop\打印机-9.png" alt="打印机-9" referrerpolicy="no-referrer"></p><ol start="6"><li><span>然后选择安装驱动程序，</span></li></ol><p>&nbsp;</p><p><img src="C:\Users\Administrator\Desktop\打印机-11.png" alt="打印机-11" style="zoom:75%;"></p><ol start="7"><li><p><span>等待安装完成即可。安装完成之后，点击开始菜单，选择设备和打印机，即可查看到已安装的打印机，打印的时候可以选择打印机的名称如下图所示：</span></p><p><img src="C:\Users\Administrator\Desktop\打印机-16.png" alt="打印机-16" referrerpolicy="no-referrer"></p></li></ol><h3><a name="windows-7-操作系统安装步骤" class="md-header-anchor"></a><span>Windows 7 操作系统安装步骤</span></h3><ol><li><p><span>鼠标左击左下角Windows图标</span><img src="C:\Users\Administrator\Desktop\打印机-5.png" alt="打印机-5" referrerpolicy="no-referrer"><span>，然后在搜索程序和文件的输入框中输入</span><code>\\172.16.18.229</code><span>, 如下图所示，然后按键盘回车键</span><code>Enter</code><span>;</span></p><p><img src="C:\Users\Administrator\Desktop\打印机-6.png" alt="打印机-6" referrerpolicy="no-referrer"></p></li></ol><ol start="2"><li><p><span>此时会弹出输入用户名以及密码的弹窗，输入的用户名：</span><code>guset</code><span>,密码为空，勾选记住我的凭据，然后点击确定；如下图所示：</span></p><p><img src="C:\Users\Administrator\Desktop\打印机-7.png" alt="打印机-7" referrerpolicy="no-referrer"></p><p><span>   如若没有弹窗，请忽略此步骤，继续向下；</span></p><ol start="3"><li><p><span>选择自己所需要的打印机，</span><code>TOSHIBA Universal XPS-1L</code><span> 为1楼人事部打印机；</span><code>TOSHIBA e-STUDIO2803AM-2L</code><span> 为二楼的打印机；如下图所示：</span></p><p><img src="C:\Users\Administrator\Desktop\打印机-12.png" alt="打印机-12" referrerpolicy="no-referrer"></p></li><li><p><span> 选择自己所需要的打印机，例如2楼打印机，鼠标右击，然后选择连接，如果需要安装启动程序，请点击安装即可。</span></p><p><img src="C:\Users\Administrator\Desktop\打印机-13.png" alt="打印机-13" referrerpolicy="no-referrer"></p><p>&nbsp;</p></li></ol></li></ol><ol start="5"><li><p><span> 安装完成后，鼠标左击Windows开始菜单， 选择设备和打印机，点进去，即可看到自己已安装的打印机。如下图所示：</span></p><p>&nbsp;</p></li></ol><p><img src="C:\Users\Administrator\Desktop\打印机-14.png" alt="打印机-14" style="zoom:75%;"></p><p>&nbsp;</p><p><img src="C:\Users\Administrator\Desktop\打印机-15.png" alt="打印机-15" referrerpolicy="no-referrer"></p></div>
-</body>
-</html>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/20/images/1l-dyj/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
-    <article id="post-about-nginx-all" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/19/about-nginx-all/">about-nginx-all</a>
-    </h1>
   
 
-        
-        <a href="/2019/11/19/about-nginx-all/" class="archive-article-date">
-  	<time datetime="2019-11-19T03:19:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h2><p>在实际工作当中用到nginx居多，但是每次的总结都感觉很零散，每次出现问题都需要去百度。导致很被动，所以这里就希望记录一下。</p>
-<p>Nginx是一款高性能的HTTP和反向代理服务器，能够选择高效的epoll(linux2.6内核)、kqueue(freebsd)、eventport(solaris10)作为网络I/O模型，能够支持高达50000个并发连接数的响应，而内存、CPU等系统资源消耗却非常低、运行非常稳定。</p>
-<ul>
-<li>支持高并发连接：nginx使用高效的多路复用模型(epoll/linux, kqueue/freebsd,  eventport/solaris)</li>
-<li>内存消耗少：在服务器3W并发连接下，开启10个Nginx进程消耗150MB内存(15MB*10)</li>
-<li>成本低廉：购买F5 BIG-IP、NetScaler等负载均衡交换机需要几十万RMB，而开源Nginx替代这些商业设备</li>
-<li>网络配置简单;支持rewrite重写规则，能够根据域名、URL的不同、将HTTP请求分到不同的后端服务器群组;内置的健康检查功能;节省带宽，支持GZIP压缩，可以添加浏览器本地缓存的Header头;支持热部署，能够在不间断服务的情况下、对软件版本进行升级</li>
-</ul>
-        
-          <a class="article-more-a" href="/2019/11/19/about-nginx-all/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">LINUX运维</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/linux运维//" class="article-tag-list-link color3">LINUX运维</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/19/about-nginx-all/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-ceph安装部署" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/11/ceph安装部署/">ceph安装部署</a>
-    </h1>
   
 
-        
-        <a href="/2019/09/11/ceph安装部署/" class="archive-article-date">
-  	<time datetime="2019-09-11T05:50:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="ceph简介以及相关组件"><a href="#ceph简介以及相关组件" class="headerlink" title="ceph简介以及相关组件"></a>ceph简介以及相关组件</h2><p>Ceph是一个分布式的、高度可伸缩的存储系统，它在同一个存储集群中提供块、对象和基于文件的存储。 Ceph 是开源的，设计用于在现成的硬件上运行。目前， promox 完全支持 Ceph RADOS 块设备 ( 块存储。 Ceph 可靠的自主分布式对象存储 (提供了复制、快照和其他块存储功能等特性。将Ceph作为存储后端有很多原因。以下是为什么应该考虑 Ceph 而不是其他 storag 的一些 要点。</p>
-        
-          <a class="article-more-a" href="/2019/09/11/ceph安装部署/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">ceph</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ceph//" class="article-tag-list-link color5">ceph</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/11/ceph安装部署/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-calico-实现原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/19/calico-实现原理/">Calico 实现原理</a>
-    </h1>
   
 
-        
-        <a href="/2019/08/19/calico-实现原理/" class="archive-article-date">
-  	<time datetime="2019-08-19T03:39:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Calicon-简介"><a href="#Calicon-简介" class="headerlink" title="Calicon 简介"></a>Calicon 简介</h2><p>Calico 是一个纯三层的数据中心网络方案，而且无缝集成像 OpenStack 这种 Iaas 云架构，能够提供可控的 VM、容器、裸机之间的 IP 通信。为什么说它是纯三层呢？因为所有的数据包都是通过路由的形式找到对应的主机和容器的，然后通过 BGP 协议来将所有路由同步到所有的机器或数据中心，从而完成整个网络的互联。</p>
-<p>简单来说，Calico 在主机上创建了一堆的 veth pair，其中一端在主机上，另一端在容器的网络命名空间里，然后在容器和主机中分别设置几条路由，来完成网络的互联。</p>
-        
-          <a class="article-more-a" href="/2019/08/19/calico-实现原理/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">calico</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">kubernetes</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/kubernetes//" class="article-tag-list-link color1">kubernetes</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/19/calico-实现原理/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-nginx-keepalived构建高可用负载均衡" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/08/nginx-keepalived构建高可用负载均衡/">Nginx+keepalived构建高可用负载均衡</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/08/nginx-keepalived构建高可用负载均衡/" class="archive-article-date">
-  	<time datetime="2019-08-08T01:08:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Nginx-keepalived构建高可用负载均衡"><a href="#Nginx-keepalived构建高可用负载均衡" class="headerlink" title="Nginx + keepalived构建高可用负载均衡"></a>Nginx + keepalived构建高可用负载均衡</h2><h3 id="Nginx-高可用集群"><a href="#Nginx-高可用集群" class="headerlink" title="Nginx 高可用集群"></a>Nginx 高可用集群</h3><p>Nginx 本身具有反向代理和负载均衡集群的功能，通过第三方软件如 keepalived、heartbeat 可构建高可用集群，实现反向代理、nginx 高可用、nginx<br>负载均衡的功能。</p>
-<h3 id="Keepalive构建高可用集群"><a href="#Keepalive构建高可用集群" class="headerlink" title="Keepalive构建高可用集群"></a>Keepalive构建高可用集群</h3><p>Nginx 能够实现反向代理和负载均衡的功能，但是并没有提供高可用的功能，当单台服务器出现故障时，会导致后端的 web 服务器群组出现故障。为了避免 nginx 单点故障，可以通过第三方软件 keepalived 构建高可用集群，keepalived 是实现高可用集群的一个开源软件，其能够定期监控集群节点的健康状况，当主节点出现故障时，备用节点能够检测到主节点的故障，并接管主节点的工作。整个过程时间很短，对于客户来说是透明的，从而实现故障的无缝迁移，当主节点恢复正常时，keepalived 能够从备用节点中重新接管回工作。</p>
-<p>Keepalived 的实现类似于虚拟路由器 vrrp，将两台 HA 集群的 IP 虚拟为一个虚拟 IP，即 vip，对外提供服务的正是 vip。Keepalived 节点分为主节点和备用节点，正常情况下，vip 在主节点上，对外接管服务，备用节点仅当主节点出现故障时，vip 从主节点自动漂移到备用节点，接管主节点的工作，对外提供服务。</p>
-        
-          <a class="article-more-a" href="/2019/08/08/nginx-keepalived构建高可用负载均衡/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">nginx</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">keepalived</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/linux运维//" class="article-tag-list-link color3">linux运维</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/08/nginx-keepalived构建高可用负载均衡/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/06/hello-world/">Hello World</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/06/hello-world/" class="archive-article-date">
-  	<time datetime="2019-08-06T02:52:16.664Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/06/hello-world/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
 
 
@@ -980,8 +366,8 @@ header, .context-menu, .megamenu-content, footer { font-family: "Segoe UI", Aria
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
